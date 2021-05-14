@@ -7,6 +7,10 @@ const routes: Routes = [
   {path: 'daftarpenjual',
   loadChildren: () => import('./shared/module/formpenjual/form.module').then(m => m.FormModule)
 },
+{path: 'videopage',
+  loadChildren: () => import('./shared/module/video/video.module').then(m => m.VideopageModule)
+},
+  
 ];
 
 @NgModule({
