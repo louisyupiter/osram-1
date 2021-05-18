@@ -5,16 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './components/home/home.component';
 import { MainComponent } from './main.component';
 import { RegisterfirstComponent } from './components/registerfirst/registerfirst.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { DatapembeliComponent } from './components/registerfirst/datapembeli/datapembeli.component';
+
 
 @NgModule({
   declarations: [
     HomeComponent,
     MainComponent,
-    RegisterfirstComponent
+    RegisterfirstComponent,
+    DatapembeliComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SlickCarouselModule,
   ],
   providers: [],
   bootstrap: [MainComponent]

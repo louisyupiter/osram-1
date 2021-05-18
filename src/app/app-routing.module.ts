@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { DatapembeliComponent } from './components/registerfirst/datapembeli/datapembeli.component';
 
 const routes: Routes = [
   {path: '', component:HomeComponent},
@@ -10,7 +11,7 @@ const routes: Routes = [
 {path: 'videopage',
   loadChildren: () => import('./shared/module/video/video.module').then(m => m.VideopageModule)
 },
-  
+{path:'pembeli', component:DatapembeliComponent}
 ];
 
 @NgModule({
