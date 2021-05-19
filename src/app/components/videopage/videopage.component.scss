@@ -8,3 +8,44 @@
     left:0;
     animation:20s slider infinite;
 }
+.title{
+   text-align: center;
+   margin-top:10px;
+   margin-bottom: 20px;
+}
+.dot{
+    text-align: center;
+    margin:5px;
+}
+input[type="radio"]{
+    margin:3px;
+}
+.carousel-indicators{
+    position:relative;
+}
+
+
+ /* css for slide navigation */
+ .navigation {
+    position: absolute;
+    width: 800px;
+    margin-top: -40px;
+    display: flex;
+    justify-content: center;
+}
+
+.navigation-btn {
+    border: 2px solid #de6a23;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.navigation-btn:not(:last-child) {
+    margin-right: 40px;
+}
+
+.navigation-btn:hover {
+    background: #de6a23;
+}
