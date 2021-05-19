@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core'
+import { NgModule } from '@angular/core';
 
-import { FormPenjualComponent } from '../../../components/registerfirst/datapenjual/formpenjual.component'
+import { FormPenjualComponent } from '../../../components/registerfirst/formpenjual/formpenjual.component';
 import { FormPenjualRouting } from './form.routing';
 
 @NgModule({

@@ -13,4 +13,4 @@ import { VideopageComponent } from '../../../components/videopage/videopage.comp
     providers: [],
     bootstrap: [],
 })
-export class VideopageModule {}
+export class VideopageModule { }
