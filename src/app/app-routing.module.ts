@@ -1,24 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { DatapembeliComponent } from './components/registerfirst/datapembeli/datapembeli.component';
 
 const routes: Routes = [
 
   {
     path: '',
-    component: HomeComponent
+    loadChildren: () => import('./shared/module/serialnumber/serialnumber.module').then(m => m.SerialnumberModule)
   },
   {
     path: 'bengkel',
-    loadChildren: () => import('./shared/module/formpenjual/form.module').then(m => m.FormModule)
+    loadChildren: () => import('./shared/module/formpenjual/formpenjual.module').then(m => m.FormpenjualModule)
   },
   {
-    path: 'videopage',
-    loadChildren: () => import('./shared/module/video/video.module').then(m => m.VideopageModule)
+    path: 'welcome',
+    loadChildren: () => import('./shared/module/videopage/videopage.module').then(m => m.VideopageModule)
   },
   {
-    path: 'pembeli', component: DatapembeliComponent
+    path: 'customer',
+    loadChildren: () => import('./shared/module/formpembeli/formpembeli.module').then(m => m.FormpembeliModule)
   }
 
 ];

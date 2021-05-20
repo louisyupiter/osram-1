@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="container">
+    <div class="logo-1">
+      <img src="../../../assets/image/logo/logo-osram.png" alt="" />
+    </div>
+    <div class="logo-2">
+      <img src="../../../assets/image/logo/logo-yoong.png" alt="" />
+    </div>
+  </div>
+
+  <form
+    [formGroup]="serialNumberForm"
+    (ngSubmit)="onSubmit(serialNumberForm.value)"
+    novalidate
+  >
+    <h4>Masukan nomor seri Anda</h4>
+    <div class="form-group">
+      <input class="form-control" formControlName="serial_number" type="text" />
+    </div>
+    <div
+      *ngIf="
+        serialNumberForm.controls['serial_number'].invalid &&
+        (serialNumberForm.controls['serial_number'].dirty ||
+          serialNumberForm.controls['serial_number'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="serialNumberForm.controls['serial_number'].errors">
+        Serial Number dibutuhkan.
+      </div>
+    </div>
+
+    <p class="description">Lihat nomor seri pada bagian bawah QR Code</p>
+    <p>Contoh : OSY12345678</p>
+
+    <div class="btn-wrapper">
+      <button
+        type="submit"
+        [disabled]="serialNumberForm.pristine || serialNumberForm.invalid"
+        class="btn"
+      >
+        Lanjutkan
+      </button>
+    </div>
+  </form>
+
+
+</div>

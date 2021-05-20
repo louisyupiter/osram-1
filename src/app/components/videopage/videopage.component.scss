@@ -1,51 +1,122 @@
-.slider{
-    overflow: hidden;
+.logo-1 {
+  text-align: center;
+  margin: 20px auto;
+  padding-top: 30px;
 }
-.slider figure{
-    position: relative;
-    width: 500%;
-    margin:0;
-    left:0;
-    animation:20s slider infinite;
-}
-.title{
-   text-align: center;
-   margin-top:10px;
-   margin-bottom: 20px;
-}
-.dot{
-    text-align: center;
-    margin:5px;
-}
-input[type="radio"]{
-    margin:3px;
-}
-.carousel-indicators{
-    position:relative;
+.logo-2 {
+  text-align: center;
+  margin: 20px auto;
 }
 
-
- /* css for slide navigation */
- .navigation {
-    position: absolute;
-    width: 800px;
-    margin-top: -40px;
-    display: flex;
-    justify-content: center;
+.wrapper-image {
+  margin: 30px auto;
+  margin-top: 15px;
 }
 
-.navigation-btn {
-    border: 2px solid #de6a23;
-    padding: 5px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 1s;
+::ng-deep .swiper-container {
+  padding-bottom: 40px;
+}
+::ng-deep .swiper-container-horizontal > .swiper-pagination-bullets {
+  bottom: 0px;
+}
+::ng-deep .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  opacity: 1;
+  border: 2px solid #f60;
+  background-color: transparent;
+}
+::ng-deep
+  .swiper-container-horizontal
+  > .swiper-pagination-bullets
+  .swiper-pagination-bullet {
+  margin: 0 7px;
+}
+::ng-deep .swiper-pagination-bullet-active {
+  background-color: #f60;
 }
 
-.navigation-btn:not(:last-child) {
-    margin-right: 40px;
+.wrapper-video {
+  margin: 20px auto;
 }
 
-.navigation-btn:hover {
-    background: #de6a23;
+.wrapper-description {
+  margin: 20px auto;
+}
+
+.wrapper-description p {
+  font-family: Helvetica;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+  padding-bottom: 50px;
+}
+
+.btn-wrapper .btn {
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+  background-color: #ff6600;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-radius: 7px;
+  padding: 10px 25px;
+}
+
+.btn-wrapper .btn:hover {
+  background-color: #ffffff;
+  color: #ff6600;
+  border-color: #ff6600;
+}
+
+.data-pembeli-wrapper {
+  border-top: 2px solid #6d6d6d;
+}
+
+.data-pembeli-wrapper h3 {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  color: #000000;
+  margin: 20px auto;
+}
+
+.data-pembeli-wrapper .data-pembeli {
+  border: 2px solid #000000;
+  padding: 15px;
+}
+
+.data-pembeli-wrapper .data-pembeli table tr td {
+  font-family: Helvetica;
+  font-size: 14px;
+  line-height: 16px;
+  color: #282828;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.data-pembeli-wrapper .data-pembeli table tr:first-child td{
+  font-weight: bold;
+}
+
+.data-pembeli-wrapper .data-pembeli table tr:last-child td{
+  padding-bottom: 0px;
+}
+
+.data-pembeli-wrapper .data-pembeli table tr td:last-child {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: #282828;
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+import { SwiperModule } from 'swiper/angular';
 
-import { VideopageRoutings } from './video.routing';
+import { VideopageRoutings } from './videopage.routing';
 import { YoutubeComponent } from '../../../components/videopage/youtube/youtube.component';
 import { VideopageComponent } from '../../../components/videopage/videopage.component';
 
@@ -10,7 +11,8 @@ import { VideopageComponent } from '../../../components/videopage/videopage.comp
         YoutubeComponent
     ],
     imports: [
-        VideopageRoutings
+        VideopageRoutings,
+        SwiperModule
     ],
     providers: [],
     bootstrap: [],

@@ -1,19 +1,90 @@
 <div class="container">
-    <div class="text">
-        osram
-        <div class="logo">
-            Osram logo
-        </div>
+  <div class="wrapper-logo">
+    <div class="logo-1">
+      <img src="../../../assets/image/logo/logo-osram.png" alt="" />
     </div>
-    <div class="input">
-        <div class="textNumberseri">
-            <p class="textpenjual">Data Penjual :</p>
-        </div>
-        <input type="text" placeholder="Nama Bengkel" />
-        <input type="text" placeholder="Alamat Bengkel" />
-        <input type="text" placeholder="Nama Pemilik Bengkel" />
-       <div class="button">
-           <button class="btn btn-warning"  [routerLink]="['/videopage']" routerLinkActive="router-link-active">Lanjutkan</button>
-       </div>
+    <div class="logo-2">
+      <img src="../../../assets/image/logo/logo-yoong.png" alt="" />
     </div>
+  </div>
+
+  <span class="form-title">Data Penjual:</span>
+  <form
+    [formGroup]="bengkelForm"
+    (ngSubmit)="onSubmit(bengkelForm.value)"
+    novalidate
+  >
+    <div class="form-group">
+      <input
+        class="form-control"
+        formControlName="nama_bengkel"
+        placeholder="Nama Bengkel"
+        type="text"
+      />
+    </div>
+    <div
+      *ngIf="
+        bengkelForm.controls['nama_bengkel'].invalid &&
+        (bengkelForm.controls['nama_bengkel'].dirty ||
+          bengkelForm.controls['nama_bengkel'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="bengkelForm.controls['nama_bengkel'].errors">
+        Nama Bengkel dibutuhkan.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <input
+        class="form-control"
+        formControlName="alamat_bengkel"
+        placeholder="Alamat Bengkel"
+        type="text"
+      />
+    </div>
+    <div
+      *ngIf="
+        bengkelForm.controls['alamat_bengkel'].invalid &&
+        (bengkelForm.controls['alamat_bengkel'].dirty ||
+          bengkelForm.controls['alamat_bengkel'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="bengkelForm.controls['alamat_bengkel'].errors">
+        Alamat Bengkel dibutuhkan.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <input
+        class="form-control"
+        formControlName="pemilik_bengkel"
+        placeholder="Nama Pemilik Bengkel"
+        type="text"
+      />
+    </div>
+    <div
+      *ngIf="
+        bengkelForm.controls['pemilik_bengkel'].invalid &&
+        (bengkelForm.controls['pemilik_bengkel'].dirty ||
+          bengkelForm.controls['pemilik_bengkel'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="bengkelForm.controls['pemilik_bengkel'].errors">
+        Nama Pemilik Bengkel dibutuhkan.
+      </div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button
+        type="submit"
+        [disabled]="bengkelForm.pristine || bengkelForm.invalid"
+        class="btn"
+      >
+        Lanjutkan
+      </button>
+    </div>
+  </form>
 </div>

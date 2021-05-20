@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DatapembeliComponent } from './datapembeli.component';
+import { FormpembeliComponent } from './formpembeli.component';
 
-describe('DatapembeliComponent', () => {
-  let component: DatapembeliComponent;
-  let fixture: ComponentFixture<DatapembeliComponent>;
+describe('FormpembeliComponent', () => {
+  let component: FormpembeliComponent;
+  let fixture: ComponentFixture<FormpembeliComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DatapembeliComponent ]
+      declarations: [ FormpembeliComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DatapembeliComponent);
+    fixture = TestBed.createComponent(FormpembeliComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

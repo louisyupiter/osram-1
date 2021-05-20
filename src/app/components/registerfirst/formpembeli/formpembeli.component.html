@@ -1,0 +1,143 @@
+<div class="container">
+  <form
+    [formGroup]="pembeliForm"
+    (ngSubmit)="onSubmit(pembeliForm.value)"
+    novalidate
+  >
+    <h3>Data Pembeli</h3>
+    <div class="form-group">
+      <label for="nama_pembeli">Nama Pembeli <span>*</span></label>
+      <input class="form-control" formControlName="nama_pembeli" type="text" />
+    </div>
+    <div
+      *ngIf="
+        pembeliForm.controls['nama_pembeli'].invalid &&
+        (pembeliForm.controls['nama_pembeli'].dirty ||
+          pembeliForm.controls['nama_pembeli'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="pembeliForm.controls['nama_pembeli'].errors">
+        Nama Pembeli dibutuhkan.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="no_pol">No Pol <span>*</span></label>
+      <input class="form-control" formControlName="no_pol" type="text" />
+    </div>
+    <div
+      *ngIf="
+        pembeliForm.controls['no_pol'].invalid &&
+        (pembeliForm.controls['no_pol'].dirty ||
+          pembeliForm.controls['no_pol'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="pembeliForm.controls['no_pol'].errors">
+        No Polisi dibutuhkan.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="merk_mobil">Merk Mobil <span>*</span></label>
+      <input class="form-control" formControlName="merk_mobil" type="text" />
+    </div>
+    <div
+      *ngIf="
+        pembeliForm.controls['merk_mobil'].invalid &&
+        (pembeliForm.controls['merk_mobil'].dirty ||
+          pembeliForm.controls['merk_mobil'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="pembeliForm.controls['merk_mobil'].errors">
+        Merk Mobil dibutuhkan.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="no_invoice">No. Invoice <span>*</span></label>
+      <input class="form-control" formControlName="no_invoice" type="text" />
+    </div>
+    <div
+      *ngIf="
+        pembeliForm.controls['no_invoice'].invalid &&
+        (pembeliForm.controls['no_invoice'].dirty ||
+          pembeliForm.controls['no_invoice'].touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="pembeliForm.controls['no_invoice'].errors">
+        No. Invoice dibutuhkan.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Deskripsi</label>
+      <textarea class="form-control" formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Foto <span>*</span></label>
+      <p class="info">
+        Pastikan box dan plat nomor kendaraan terlihat dengan jelas pada saat
+        pengambilan foto.
+      </p>
+      <img class="image-preview" [src]="imgFile" *ngIf="imgFile" height="200" />
+      <div class="btn-upload upload-foto">Upload File</div>
+      <input
+        type="file"
+        accept="image/x-png,image/gif,image/jpeg"
+        class="form-control d-none"
+        id="foto"
+        formControlName="foto"
+        (change)="onImageChange($event)"
+      />
+      <div
+        *ngIf="
+          pembeliForm.controls['foto'].invalid &&
+          (pembeliForm.controls['foto'].dirty ||
+            pembeliForm.controls['foto'].touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="pembeliForm.controls['foto'].errors">
+          Image file is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Video</label>
+      <p class="info">Maksimal 10 detik.</p>
+      <video class="video-preview" [src]="videoFile" *ngIf="videoFile" height="200" controls></video>
+      <div class="btn-upload upload-video">Upload File</div>
+      <input
+        type="file"
+        class="form-control d-none"
+        accept="video/*"
+        id="video"
+        formControlName="video"
+        (change)="onVideoChange($event)"
+      />
+      <div class="info-video">
+        <span>*</span>
+        <p class="description">
+          Foto dan video akan digunakan untuk keperluan sosial media Osram dan
+          Yoong Motor
+        </p>
+      </div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button
+        type="submit"
+        [disabled]="pembeliForm.pristine || pembeliForm.invalid"
+        class="btn"
+      >
+        Upload Data Pembeli
+      </button>
+    </div>
+  </form>
+</div>
