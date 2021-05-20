@@ -145,3 +145,7 @@ textarea {
   color: #ffffff;
   padding: 14px 30px;
 }
+
+::ng-deep .swal2-styled.swal2-confirm:focus {
+  box-shadow: none;
+}

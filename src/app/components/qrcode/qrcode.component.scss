@@ -1,0 +1,24 @@
+.admin{
+    margin: 100px auto;
+    text-align: center;
+}
+
+.btn {
+  background: #fcfcfc;
+  border: 2px solid #282828;
+  font-family: Helvetica;
+  font-size: 13px;
+  line-height: 15px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 10px 25px;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 30px auto;
+}
+
+.btn:hover {
+  background: #ff6600;
+  color: #fcfcfc;
+}

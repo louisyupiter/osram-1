@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { QrcodeComponent } from './components/qrcode/qrcode.component';
 
 const routes: Routes = [
 
@@ -18,7 +19,8 @@ const routes: Routes = [
   {
     path: 'customer',
     loadChildren: () => import('./shared/module/formpembeli/formpembeli.module').then(m => m.FormpembeliModule)
-  }
+  },
+  { path: 'qrcode', component: QrcodeComponent }
 
 ];
 
