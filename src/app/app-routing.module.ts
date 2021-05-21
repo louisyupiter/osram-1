@@ -20,7 +20,10 @@ const routes: Routes = [
     path: 'customer',
     loadChildren: () => import('./shared/module/formpembeli/formpembeli.module').then(m => m.FormpembeliModule)
   },
-  { path: 'qrcode', component: QrcodeComponent }
+  {
+    path: 'qrcode',
+    loadChildren: () => import('./shared/module/qrcode/qrcode.module').then(m => m.QrcodeModule)
+  }
 
 ];
 
