@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as kjua from 'kjua-svg';
 import jsPDF from 'jspdf';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ApiService } from 'src/app/shared/service/api.service';
 
 @Component({
   selector: 'app-qrcode',
@@ -10,17 +11,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class QrcodeComponent implements OnInit {
 
-  qrcode = [{
-    id: 1,
-    serial_number: 'osy11111111'
-  },
-  {
-    id: 2,
-    serial_number: 'osy22222222'
-  }];
-
   qrForm!: FormGroup;
 
+  sn: any[] = [];
   numbers: any[] = [];
   progressVal = 0;
   progressMax = 50;
@@ -40,7 +33,7 @@ export class QrcodeComponent implements OnInit {
   cellHeight = 36;
   borderTopBottom = ((this.pageHeight - (this.rowsPerPage * this.cellHeight)) / 2);
 
-  static getBarcodeData(texts: string, images: string, sizes = 400): any {
+  static getBarcodeData(texts: string, images: string, serialnumber: string, sizes = 400): any {
     return kjua({
       render: 'canvas',
       crisp: true,
@@ -50,21 +43,23 @@ export class QrcodeComponent implements OnInit {
       ratio: undefined,
       fill: '#333333',
       back: '#ffffff',
-      text: texts,
+      // text: `${texts}/${serialnumber}`,
+      text: `https://osramindonesia.com/${serialnumber}`,
       rounded: 0,
-      quiet: 1,
+      quiet: 5,
       mode: 'labelimage',
-      mSize: [20],
+      mSize: [5],
       mPosX: [50],
-      mPosY: [50],
-      label: 'OSRAM',
+      mPosY: [100],
+      // label: `${texts}/${serialnumber}`,
+      label: `osramindonesia.com/${serialnumber}`,
       fontname: 'Helvetica',
       fontcolor: '#ff9818',
       image: images
     });
   }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -100,10 +95,19 @@ export class QrcodeComponent implements OnInit {
     this.imgFile = formData.img;
     this.numbers = Array.from({ length: generatenumber }, (_, i) => i);
     this.progressMax = generatenumber;
+
+    for (let i = 0; i < generatenumber; i++) {
+      this.apiService.createQrcode().subscribe(
+        (res: any) => {
+          this.sn = res.data.serial_number;
+        }
+      );
+    }
+
     this.generatePDF();
   }
 
-  generatePDF(index = 0, document = new jsPDF(), colPos = 0, rowPos = 0): void {
+  generatePDF(serial = '', index = 0, document = new jsPDF(), colPos = 0, rowPos = 0): void {
     if (index === 0) {
       this.startTime = new Date().getTime();
     }
@@ -111,7 +115,7 @@ export class QrcodeComponent implements OnInit {
 
     this.progressVal = index + 1;
 
-    const barcodeData = QrcodeComponent.getBarcodeData(this.url, this.imgFile);
+    const barcodeData = QrcodeComponent.getBarcodeData(this.url, this.imgFile, serial);
     console.log(barcodeData);
     const x = ((this.pageWidth / this.columnsPerPage) / 2) - (this.cellWidth / 2) + (colPos * (this.pageWidth / this.columnsPerPage));
     const y = this.borderTopBottom + (rowPos * this.cellHeight) + 1;
@@ -135,7 +139,7 @@ export class QrcodeComponent implements OnInit {
 
       document.save(`QR-Codes.pdf`);
     } else {
-      requestAnimationFrame(() => this.generatePDF(index + 1, document, colPos, rowPos));
+      requestAnimationFrame(() => this.generatePDF(serial, index + 1, document, colPos, rowPos));
     }
   }
 
