@@ -1,39 +1,51 @@
 <div class="container admin">
   <h2>QRCode Generate</h2>
   <div class="wrapper-generate">
-    <form [formGroup]="qrForm" (ngSubmit)="onSubmit(qrForm.value)" novalidate>
-      <label for="numcodes">Amount of codes to generate:</label>
-      <input
-        id="numcodes"
-        class="form-control"
-        type="number"
-        formControlName="generate_number"
-      />
-      <label for="web">Url website:</label>
-      <input
-        id="web"
-        class="form-control"
-        type="text"
-        formControlName="website"
-      />
-      <!-- <label for="img">image on center:</label>
-      <input
-        id="img"
-        class="form-control"
-        type="file"
-        formControlName="img"
-      /> -->
-      <button class="btn btn-generate" type="submit">
-        Generate a PDF with QR-Codes
-      </button>
-      <p>Progress:</p>
-      <progress value="{{ progressVal }}" max="{{ progressMax }}"></progress>
-      <p>
-        Generation of a single code took ~{{
-          timeSingleCode | number: "1.1-1"
-        }}ms
-      </p>
-    </form>
+    <div class="wrapper-form">
+      <form [formGroup]="qrForm" (ngSubmit)="onSubmit(qrForm.value)" novalidate>
+        <label for="numcodes">Amount of codes to generate:</label>
+        <input
+          id="numcodes"
+          class="form-control"
+          type="number"
+          formControlName="generate_number"
+        />
+        <label for="web">Url website:</label>
+        <input
+          id="web"
+          class="form-control"
+          type="text"
+          formControlName="website"
+        />
+        <!-- <label for="img">image on center:</label>
+        <input
+          id="img"
+          class="form-control"
+          type="file"
+          formControlName="img"
+        /> -->
+        <button class="btn btn-generate" type="submit">
+          Generate QR-Codes
+        </button>
+      </form>
+
+      <div class="wrapper-unprinted">
+        Amount of Unprinted QR-code: <strong>{{ totalunprinted }}</strong>
+        <button class="btn btn-generate" (click)="createPDF()">
+          Generate to PDF
+        </button>
+        <p>Progress:</p>
+        <progress value="{{ progressVal }}" max="{{ progressMax }}"></progress>
+        <p>
+          Generation of a single code took ~{{
+            timeSingleCode | number: "1.1-1"
+          }}ms
+        </p>
+      </div>
+
+    </div>
+
+    
   </div>
 
   <div class="wrapper-report">

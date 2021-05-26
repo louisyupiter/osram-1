@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   baseUrl: 'https://be-osram.herokuapp.com/api/v1/'
+  // baseUrl: 'http://localhost:3000/api/v1/'
 };
 
 /*

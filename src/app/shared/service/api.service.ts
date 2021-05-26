@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Penjual } from '../models/Penjual';
 import { SerialNumber } from '../models/SerialNumber';
 import { Pembeli } from '../models/Pembeli';
+import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
@@ -17,13 +18,21 @@ export class ApiService {
             .post<any>(`${environment.baseUrl}code/create`, null)
             .subscribe(
                 (success) => {
-                    console.log(success.data.serial_number);
+                    console.log(success);
                     // this.router.navigate([`/home`]);
                 },
                 (err) => {
                     console.log(err);
                 }
             );
+    }
+
+    getAllunPrintQrcode(): Observable<any[]> {
+        return this.http.get<any>(`${environment.baseUrl}code/`);
+    }
+
+    printQrcode(): Observable<any[]> {
+        return this.http.get<any>(`${environment.baseUrl}code/print`);
     }
 
     validateQrcode(serialnumber: SerialNumber): any {
