@@ -63,18 +63,8 @@ export class ApiService {
             .post<any>(`${environment.baseUrl}penjual/${idqrcode}`, penjual);
     }
 
-    getAllPembeli(): any {
-        return this.http
-            .get<any>(`${environment.baseUrl}pembeli`)
-            .subscribe(
-                (res) => {
-                    console.log(res);
-                    // this.router.navigate([`/home`]);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+    getAllPembeli(): Observable<any[]> {
+        return this.http.get<any>(`${environment.baseUrl}pembeli`);
     }
 
     getPembeli(idqrcode: string): Observable<any[]> {

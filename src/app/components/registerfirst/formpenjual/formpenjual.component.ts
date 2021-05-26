@@ -30,6 +30,13 @@ export class FormPenjualComponent implements OnInit {
     ngOnInit(): void {
         this.isLoading = true;
         this.idqrcode = this.activatedRoute.snapshot.paramMap.get('idqrcode');
+
+        this.apiService.getPembeli(this.idqrcode).subscribe((res: any) => {
+            if (res.data.nama_pembeli !== '') {
+                this.router.navigate(['/welcome/' + this.idqrcode]);
+            }
+        });
+
         this.apiService.getPenjual(this.idqrcode).subscribe(
             (res: any) => {
                 this.isLoading = false;

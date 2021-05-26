@@ -85,7 +85,7 @@ export class FormpembeliComponent implements OnInit {
   }
 
   mask(): any {
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 9; i++) {
       this.arrmask.push(/[a-zA-Z0-9_ ]/);
     }
     return this.arrmask;
@@ -93,7 +93,7 @@ export class FormpembeliComponent implements OnInit {
 
   mask2(): any {
     for (let i = 0; i < 30; i++) {
-      this.arrmask2.push(/[a-zA-Z0-9_ ]/);
+      this.arrmask2.push(/[a-zA-Z0-9_]/);
     }
     return this.arrmask2;
   }
