@@ -3,6 +3,8 @@ import * as kjua from 'kjua-svg';
 import jsPDF from 'jspdf';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../../shared/service/api.service';
+import { ExcelService } from './excel.service';
+
 
 @Component({
   selector: 'app-qrcode',
@@ -19,6 +21,8 @@ export class QrcodeComponent implements OnInit {
   progressMax = 10;
   url = '';
   imgFile = '';
+
+  excel: any[] = [];
 
   startTime = 0;
   timeSingleCode = 0;
@@ -62,9 +66,20 @@ export class QrcodeComponent implements OnInit {
     });
   }
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) { }
+  constructor(private fb: FormBuilder, private apiService: ApiService, private excelService: ExcelService) { }
 
   ngOnInit(): void {
+    this.apiService.getAllPembeli().subscribe(
+      (res: any) => {
+        this.excel = res.data;
+        console.log(this.excel);
+
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
     this.getAllunprinted();
     this.createForm();
   }
@@ -167,6 +182,11 @@ export class QrcodeComponent implements OnInit {
     } else {
       requestAnimationFrame(() => this.generatePDF(index + 1, document, colPos, rowPos));
     }
+  }
+
+  exportAsXLSX(): void {
+    console.log(this.excel);
+    this.excelService.exportAsExcelFile(this.excel, 'osram-excel');
   }
 
 }

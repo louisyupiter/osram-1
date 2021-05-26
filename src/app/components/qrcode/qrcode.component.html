@@ -1,6 +1,6 @@
 <div class="container admin">
-  <h2>QRCode Generate</h2>
-  <div class="wrapper-generate">
+  <h2>Data Generate</h2>
+  <div class="wrapper-generate" style="display: none;">
     <div class="wrapper-form">
       <form [formGroup]="qrForm" (ngSubmit)="onSubmit(qrForm.value)" novalidate>
         <label for="numcodes">Amount of codes to generate:</label>
@@ -50,7 +50,7 @@
     
   </div>
 
-  <div class="wrapper-report">
-    <button class="btn btn-report">Export to Excel</button>
+  <div class="wrapper-report text-center">
+    <button class="btn btn-report" (click)="exportAsXLSX()">Export to Excel</button>
   </div>
 </div>
