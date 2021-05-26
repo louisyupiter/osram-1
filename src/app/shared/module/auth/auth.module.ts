@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
-import { SwiperModule } from 'swiper/angular';
-
-import { VideopageRoutings } from './videopage.routing';
-import { YoutubeComponent } from '../../../components/videopage/youtube/youtube.component';
-import { VideopageComponent } from '../../../components/videopage/videopage.component';
-import { NgxLoaderIndicatorModule } from 'ngx-loader-indicator';
 import { CommonModule } from '@angular/common';
+import { AuthComponent } from 'src/app/components/auth/auth.component';
+import { AuthRoutings } from './auth.routing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TextMaskModule } from 'angular2-text-mask';
+import { NgxLoaderIndicatorModule } from 'ngx-loader-indicator';
 
 @NgModule({
   declarations: [
-    VideopageComponent,
-    YoutubeComponent
+    AuthComponent
   ],
   imports: [
+    AuthRoutings,
     CommonModule,
-    VideopageRoutings,
-    SwiperModule,
+    ReactiveFormsModule,
+    TextMaskModule,
     NgxLoaderIndicatorModule.forRoot({
       img: '../../../../assets/other/spinner.png',
       loaderStyles: {
@@ -34,4 +33,4 @@ import { CommonModule } from '@angular/common';
   providers: [],
   bootstrap: [],
 })
-export class VideopageModule { }
+export class AuthModule { }

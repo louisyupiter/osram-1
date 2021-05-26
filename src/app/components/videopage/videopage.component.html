@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container" [loader]="isLoading">
   <div class="container">
     <div class="logo-1">
-      <img src="../../../assets/image/logo/logo-osram.png" alt="">
+      <img src="../../../assets/image/logo/logo-osram.png" alt="" />
     </div>
     <div class="logo-2">
-      <img src="../../../assets/image/logo/logo-yoong.png" alt="">
+      <img src="../../../assets/image/logo/logo-yoong.png" alt="" />
     </div>
   </div>
 
@@ -41,11 +41,12 @@
   </div>
   <div class="container wrapper-description">
     <p>
-      Meet the future with OSRAM LEDriving CBI Pro. Classic beam pattern and OEM quality will definitely upgrade your vehicle performance
+      Meet the future with OSRAM LEDriving CBI Pro. Classic beam pattern and OEM
+      quality will definitely upgrade your vehicle performance
     </p>
   </div>
 
-  <div class="container">
+  <div class="container" *ngIf="isFilled">
     <div class="data-pembeli-wrapper">
       <h3>Data Pembeli</h3>
       <div class="data-pembeli">
@@ -53,48 +54,47 @@
           <tr>
             <td>S/N</td>
             <td>:</td>
-            <td>OSY12345678</td>
+            <td>{{ serialNumber }}</td>
           </tr>
           <tr>
             <td>Nama Pembeli</td>
             <td>:</td>
-            <td>Efren Reyes</td>
+            <td>{{ namaPembeli }}</td>
           </tr>
           <tr>
             <td>No. Pol</td>
             <td>:</td>
-            <td>B 1454 LAH</td>
+            <td>{{ noPol }}</td>
           </tr>
           <tr>
             <td>Merk Mobil</td>
             <td>:</td>
-            <td>Nissan GT-R</td>
+            <td>{{ merkMobil }}</td>
           </tr>
           <tr>
             <td>No. Invoice</td>
             <td>:</td>
-            <td>A-12345</td>
+            <td>{{ noInvoice }}</td>
           </tr>
           <tr>
             <td>Tgl. Pembelian</td>
             <td>:</td>
-            <td>4 Mei 2021</td>
+            <td>{{ datebuy }}</td>
           </tr>
-          
+
           <tr>
             <td>Tgl. Akhir Garansi</td>
             <td>:</td>
-            <td>4 Mei 2022</td>
+            <td>{{ dategaransi }}</td>
           </tr>
         </table>
       </div>
     </div>
   </div>
 
-  <div class="container btn-wrapper">
-    <div class="btn text-center" [routerLink]="['/customer']">DAFTAR GARANSI</div>
+  <div class="container btn-wrapper" *ngIf="!isFilled">
+    <div class="btn text-center" [routerLink]="['/customer/'+idqrcode]">
+      DAFTAR GARANSI
+    </div>
   </div>
-
-
-
 </div>

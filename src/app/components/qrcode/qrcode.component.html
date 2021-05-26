@@ -30,7 +30,9 @@
       </form>
 
       <div class="wrapper-unprinted">
-        Amount of Unprinted QR-code: <strong>{{ totalunprinted }}</strong>
+        <div class="info">
+          Amount of Unprinted QR-code: <strong>{{ totalunprinted }}</strong>
+        </div>
         <button class="btn btn-generate" (click)="createPDF()">
           Generate to PDF
         </button>

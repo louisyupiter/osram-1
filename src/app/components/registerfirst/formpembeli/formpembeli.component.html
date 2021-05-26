@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [loader]="isLoading">
   <form
     [formGroup]="pembeliForm"
     (ngSubmit)="onSubmit(pembeliForm.value)"
@@ -7,7 +7,12 @@
     <h3>Data Pembeli</h3>
     <div class="form-group">
       <label for="nama_pembeli">Nama Pembeli <span>*</span></label>
-      <input class="form-control" formControlName="nama_pembeli" type="text" />
+      <input
+        class="form-control"
+        formControlName="nama_pembeli"
+        type="text"
+        [textMask]="maskconfig"
+      />
     </div>
     <div
       *ngIf="
@@ -18,13 +23,18 @@
       class="alert alert-danger"
     >
       <div *ngIf="pembeliForm.controls['nama_pembeli'].errors">
-        Nama Pembeli dibutuhkan.
+        Silahkan Input Nama Pembeli.
       </div>
     </div>
 
     <div class="form-group">
       <label for="no_pol">No Pol <span>*</span></label>
-      <input class="form-control" formControlName="no_pol" type="text" />
+      <input
+        class="form-control"
+        formControlName="no_pol"
+        type="text"
+        [textMask]="maskconfig"
+      />
     </div>
     <div
       *ngIf="
@@ -35,13 +45,18 @@
       class="alert alert-danger"
     >
       <div *ngIf="pembeliForm.controls['no_pol'].errors">
-        No Polisi dibutuhkan.
+        Silahkan Input No Polisi.
       </div>
     </div>
 
     <div class="form-group">
       <label for="merk_mobil">Merk Mobil <span>*</span></label>
-      <input class="form-control" formControlName="merk_mobil" type="text" />
+      <input
+        class="form-control"
+        formControlName="merk_mobil"
+        type="text"
+        [textMask]="maskconfig"
+      />
     </div>
     <div
       *ngIf="
@@ -52,13 +67,18 @@
       class="alert alert-danger"
     >
       <div *ngIf="pembeliForm.controls['merk_mobil'].errors">
-        Merk Mobil dibutuhkan.
+        Silahkan Input Merk Mobil.
       </div>
     </div>
 
     <div class="form-group">
       <label for="no_invoice">No. Invoice <span>*</span></label>
-      <input class="form-control" formControlName="no_invoice" type="text" />
+      <input
+        class="form-control"
+        formControlName="no_invoice"
+        type="text"
+        [textMask]="maskconfig2"
+      />
     </div>
     <div
       *ngIf="
@@ -69,13 +89,17 @@
       class="alert alert-danger"
     >
       <div *ngIf="pembeliForm.controls['no_invoice'].errors">
-        No. Invoice dibutuhkan.
+        Silahkan Input No. Invoice.
       </div>
     </div>
 
     <div class="form-group">
       <label for="description">Deskripsi</label>
-      <textarea class="form-control" formControlName="description"></textarea>
+      <textarea
+        class="form-control"
+        formControlName="description"
+        maxlength="150"
+      ></textarea>
     </div>
 
     <div class="form-group">
@@ -110,8 +134,14 @@
 
     <div class="form-group">
       <label for="description">Video</label>
-      <p class="info">Maksimal 10 detik.</p>
-      <video class="video-preview" [src]="videoFile" *ngIf="videoFile" height="200" controls></video>
+      <p class="info">Maksimal 10 detik. (Maks. 5 MB)</p>
+      <video
+        class="video-preview"
+        [src]="videoFile"
+        *ngIf="videoFile"
+        height="200"
+        controls
+      ></video>
       <div class="btn-upload upload-video">Upload File</div>
       <input
         type="file"
@@ -130,14 +160,12 @@
       </div>
     </div>
 
+    <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Mohon inputkan kembali dengan benar.
+    </div>
+
     <div class="btn-wrapper">
-      <button
-        type="submit"
-        [disabled]="pembeliForm.pristine || pembeliForm.invalid"
-        class="btn"
-      >
-        Upload Data Pembeli
-      </button>
+      <button type="submit" class="btn">Upload Data Pembeli</button>
     </div>
   </form>
 </div>

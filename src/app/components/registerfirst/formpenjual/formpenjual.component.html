@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [loader]="isLoading">
   <div class="wrapper-logo">
     <div class="logo-1">
       <img src="../../../assets/image/logo/logo-osram.png" alt="" />
@@ -15,12 +15,17 @@
     novalidate
   >
     <div class="form-group">
-      <input
-        class="form-control"
-        formControlName="nama_bengkel"
-        placeholder="Nama Bengkel"
-        type="text"
-      />
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.nama_bengkel.errors }"
+      >
+        <input
+          class="form-control"
+          formControlName="nama_bengkel"
+          placeholder="Nama Bengkel"
+          type="text"
+          [textMask]="maskconfig"
+        />
+      </p>
     </div>
     <div
       *ngIf="
@@ -36,12 +41,17 @@
     </div>
 
     <div class="form-group">
-      <input
-        class="form-control"
-        formControlName="alamat_bengkel"
-        placeholder="Alamat Bengkel"
-        type="text"
-      />
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.alamat_bengkel.errors }"
+      >
+        <input
+          class="form-control"
+          formControlName="alamat_bengkel"
+          placeholder="Alamat Bengkel"
+          type="text"
+          [textMask]="maskconfig"
+        />
+      </p>
     </div>
     <div
       *ngIf="
@@ -57,12 +67,17 @@
     </div>
 
     <div class="form-group">
-      <input
-        class="form-control"
-        formControlName="pemilik_bengkel"
-        placeholder="Nama Pemilik Bengkel"
-        type="text"
-      />
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.pemilik_bengkel.errors }"
+      >
+        <input
+          class="form-control"
+          formControlName="pemilik_bengkel"
+          placeholder="Nama Pemilik Bengkel"
+          type="text"
+          [textMask]="maskconfig"
+        />
+      </p>
     </div>
     <div
       *ngIf="
@@ -77,14 +92,12 @@
       </div>
     </div>
 
+    <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Mohon inputkan kembali dengan benar.
+    </div>
+
     <div class="btn-wrapper">
-      <button
-        type="submit"
-        [disabled]="bengkelForm.pristine || bengkelForm.invalid"
-        class="btn"
-      >
-        Lanjutkan
-      </button>
+      <button type="submit" class="btn">Lanjutkan</button>
     </div>
   </form>
 </div>
