@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { QrcodeComponent } from './components/qrcode/qrcode.component';
+import { AuthGuard } from './components/auth/auth.guard';
 
 const routes: Routes = [
 
@@ -9,20 +9,25 @@ const routes: Routes = [
     loadChildren: () => import('./shared/module/serialnumber/serialnumber.module').then(m => m.SerialnumberModule)
   },
   {
-    path: 'bengkel',
+    path: 'bengkel/:idqrcode',
     loadChildren: () => import('./shared/module/formpenjual/formpenjual.module').then(m => m.FormpenjualModule)
   },
   {
-    path: 'welcome',
+    path: 'welcome/:idqrcode',
     loadChildren: () => import('./shared/module/videopage/videopage.module').then(m => m.VideopageModule)
   },
   {
-    path: 'customer',
+    path: 'customer/:idqrcode',
     loadChildren: () => import('./shared/module/formpembeli/formpembeli.module').then(m => m.FormpembeliModule)
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./shared/module/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
     path: 'qrcode',
-    loadChildren: () => import('./shared/module/qrcode/qrcode.module').then(m => m.QrcodeModule)
+    loadChildren: () => import('./shared/module/qrcode/qrcode.module').then(m => m.QrcodeModule),
+    canActivate: [AuthGuard],
   }
 
 ];

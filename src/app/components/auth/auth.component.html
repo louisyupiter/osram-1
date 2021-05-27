@@ -1,0 +1,61 @@
+<div class="container login" [loader]="isLoading">
+  <h2>Admin Page</h2>
+  <div class="wrapper-login">
+    <h3 class="title">Log in</h3>
+    <form [formGroup]="loginForm" class="login-container" (ngSubmit)="login()">
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.username.errors }"
+      >
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Username"
+          formControlName="username"
+          [textMask]="maskconfig"
+        />
+      </p>
+
+      <div
+        *ngIf="isSubmitted && formControls.username.errors"
+        class="alert alert-danger"
+      >
+        <div
+          *ngIf="
+            formControls.username.errors.required &&
+            loginForm.controls['username'].errors
+          "
+        >
+          Silahkan Menginput Username Dengan Benar.
+        </div>
+      </div>
+
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.password.errors }"
+      >
+        <input
+          class="form-control"
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+      </p>
+
+      <div
+        *ngIf="isSubmitted && formControls.password.errors"
+        class="alert alert-danger"
+      >
+        <div *ngIf="formControls.password.errors.required">
+          Silahkan Menginput Password Dengan Benar.
+        </div>
+      </div>
+
+      <div *ngIf="isUnvalidated" class="alert alert-danger">
+        Username dan Password tidak cocok.
+      </div>
+
+      <div class="wrapper-submit">
+        <input class="btn btn-login" type="submit" value="Log in" />
+      </div>
+    </form>
+  </div>
+</div>

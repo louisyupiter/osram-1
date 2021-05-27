@@ -62,3 +62,15 @@ input[type="text"] {
   border-radius: 7px;
   padding: 10px 25px;
 }
+
+.btn-wrapper .btn:hover {
+  background-color: #ffffff;
+  color: #ff6600;
+  border-color: #ff6600;
+}
+
+.has-error input[type="text"],
+.has-error input[type="password"] {
+  border-color: rgb(216, 12, 12);
+  color: rgb(230, 14, 14);
+}

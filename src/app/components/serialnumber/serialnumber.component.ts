@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/shared/service/api.service';
 
 @Component({
   selector: 'app-serialnumber',
@@ -9,13 +10,35 @@ import { Router } from '@angular/router';
 })
 export class SerialnumberComponent implements OnInit {
 
+  isUnvalidated = false;
+  isLoading = false;
+  isSubmitted = false;
   serialNumberForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  arrmask: any[] = [];
+
+  maskconfig = {
+    guide: false,
+    showMask: false,
+    mask: this.arrmask
+  };
+
+  constructor(private fb: FormBuilder, private router: Router, private apiService: ApiService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
     this.createForm();
-    console.log(this.serialNumberForm);
+    this.mask();
+  }
+
+  mask(): any {
+    for (let i = 0; i < 11; i++) {
+      this.arrmask.push(/[a-zA-Z0-9_]/);
+    }
+    return this.arrmask;
   }
 
   createForm(): void {
@@ -25,10 +48,25 @@ export class SerialnumberComponent implements OnInit {
   }
 
   onSubmit(formData: any): void {
-    const serialnumber = formData.serial_number;
-
-    console.log(serialnumber);
-    this.router.navigate(['/bengkel']);
+    // const serialnumber = formData.serial_number;
+    this.isSubmitted = true;
+    this.isLoading = true;
+    if (this.serialNumberForm.invalid) {
+      this.isLoading = false;
+      this.isUnvalidated = true;
+      return;
+    }
+    this.apiService.validateQrcode(this.serialNumberForm.value).subscribe(
+      (res: any) => {
+        this.isLoading = false;
+        this.isUnvalidated = false;
+        this.router.navigateByUrl('/bengkel/' + res.data._id);
+      },
+      (err: any) => {
+        this.isLoading = false;
+        this.isUnvalidated = true;
+      }
+    );
   }
 
 }

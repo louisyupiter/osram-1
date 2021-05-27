@@ -125,6 +125,12 @@ textarea {
   padding: 10px 25px;
 }
 
+.btn-wrapper .btn:hover {
+  background-color: #ffffff;
+  color: #ff6600;
+  border-color: #ff6600;
+}
+
 ::ng-deep .swal2-html-container {
   font-family: Helvetica;
   font-weight: bold;

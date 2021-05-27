@@ -1,6 +1,20 @@
 .admin{
     margin: 100px auto;
-    text-align: center;
+}
+
+h2{
+  margin-bottom: 20px;
+  text-align: center;
+}
+.wrapper-form{
+  border: 2px solid #434041;
+  padding: 30px;
+  margin-bottom: 10px;
+}
+
+.wrapper-unprinted{
+  border: 1px solid #434041;
+  padding: 30px;
 }
 
 .btn {
@@ -21,4 +35,10 @@
 .btn:hover {
   background: #ff6600;
   color: #fcfcfc;
+}
+
+.has-error input[type="text"],
+.has-error input[type="password"] {
+  border-color: rgb(216, 12, 12);
+  color: rgb(230, 14, 14);
 }

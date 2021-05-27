@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import * as kjua from 'kjua-svg';
 import jsPDF from 'jspdf';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ApiService } from 'src/app/shared/service/api.service';
+import { ApiService } from '../../shared/service/api.service';
+import { ExcelService } from './excel.service';
+
 
 @Component({
   selector: 'app-qrcode',
@@ -12,19 +14,21 @@ import { ApiService } from 'src/app/shared/service/api.service';
 export class QrcodeComponent implements OnInit {
 
   qrForm!: FormGroup;
-
-  sn: any[] = [];
+  totalunprinted = 0;
   numbers: any[] = [];
+  snUnique: any[] = [];
   progressVal = 0;
-  progressMax = 50;
+  progressMax = 10;
   url = '';
   imgFile = '';
+
+  excel: any[] = [];
 
   startTime = 0;
   timeSingleCode = 0;
 
   // pdf
-  columnsPerPage = 4;
+  columnsPerPage = 6;
   rowsPerPage = 8;
   pageWidth = 210;
   pageHeight = 297;
@@ -32,6 +36,8 @@ export class QrcodeComponent implements OnInit {
   cellWidth = 36;
   cellHeight = 36;
   borderTopBottom = ((this.pageHeight - (this.rowsPerPage * this.cellHeight)) / 2);
+  serial: any;
+  barcodeData: any;
 
   static getBarcodeData(texts: string, images: string, serialnumber: string, sizes = 400): any {
     return kjua({
@@ -43,25 +49,38 @@ export class QrcodeComponent implements OnInit {
       ratio: undefined,
       fill: '#333333',
       back: '#ffffff',
-      // text: `${texts}/${serialnumber}`,
-      text: `https://osramindonesia.com/${serialnumber}`,
+      text: `${texts}/${serialnumber}`,
+      // text: `https://osramindonesia.com/${serialnumber}`,
       rounded: 0,
       quiet: 5,
       mode: 'labelimage',
       mSize: [5],
       mPosX: [50],
       mPosY: [100],
-      // label: `${texts}/${serialnumber}`,
-      label: `osramindonesia.com/${serialnumber}`,
+      label: `${texts}/${serialnumber}`,
+      // label: `osramindonesia.com/${serialnumber}`,
       fontname: 'Helvetica',
-      fontcolor: '#ff9818',
+      fontcolor: '#333333',
+      // fontcolor: '#ff9818',
       image: images
     });
   }
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) { }
+  constructor(private fb: FormBuilder, private apiService: ApiService, private excelService: ExcelService) { }
 
   ngOnInit(): void {
+    this.apiService.getAllPembeli().subscribe(
+      (res: any) => {
+        this.excel = res.data;
+        console.log(this.excel);
+
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
+    this.getAllunprinted();
     this.createForm();
   }
 
@@ -89,7 +108,18 @@ export class QrcodeComponent implements OnInit {
     }
   }
 
-  onSubmit(formData: any): void {
+  getAllunprinted(): void {
+    this.apiService.getAllunPrintQrcode().subscribe((res: any) => {
+      this.totalunprinted = res.data.length;
+      console.log(this.totalunprinted);
+    },
+      (_) => {
+        console.log('unprinted qrcode unavailable');
+      }
+    );
+  }
+
+  onSubmit(formData: any): any {
     const generatenumber = formData.generate_number;
     this.url = formData.website;
     this.imgFile = formData.img;
@@ -97,17 +127,31 @@ export class QrcodeComponent implements OnInit {
     this.progressMax = generatenumber;
 
     for (let i = 0; i < generatenumber; i++) {
-      this.apiService.createQrcode().subscribe(
-        (res: any) => {
-          this.sn = res.data.serial_number;
-        }
-      );
+      this.apiService.createQrcode();
     }
 
-    this.generatePDF();
+    setTimeout(() => {
+      this.getAllunprinted();
+    }, generatenumber * 10);
   }
 
-  generatePDF(serial = '', index = 0, document = new jsPDF(), colPos = 0, rowPos = 0): void {
+  createPDF(): any {
+    this.apiService.printQrcode().subscribe((res: any) => {
+      for (const data of res.data) {
+        console.log(data.serial_number);
+        this.snUnique.push(data.serial_number);
+      }
+      this.progressMax = res.data.length;
+      this.generatePDF();
+      this.getAllunprinted();
+    },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  generatePDF(index = 0, document = new jsPDF(), colPos = 0, rowPos = 0): any {
     if (index === 0) {
       this.startTime = new Date().getTime();
     }
@@ -115,15 +159,11 @@ export class QrcodeComponent implements OnInit {
 
     this.progressVal = index + 1;
 
-    const barcodeData = QrcodeComponent.getBarcodeData(this.url, this.imgFile, serial);
-    console.log(barcodeData);
+    this.barcodeData = QrcodeComponent.getBarcodeData(this.url, this.imgFile, this.snUnique[index]);
+    console.log(this.barcodeData);
     const x = ((this.pageWidth / this.columnsPerPage) / 2) - (this.cellWidth / 2) + (colPos * (this.pageWidth / this.columnsPerPage));
     const y = this.borderTopBottom + (rowPos * this.cellHeight) + 1;
-    document.addImage(barcodeData, 'JPG', x, y, this.cellWidth - 2, this.cellHeight - 2);
-    // document.setFont('Helvetica');
-    // document.setFontSize(9);
-    // document.text(this.url, 33, 42, { align: 'center' });
-    // document.text('S/N: OSY12345678', 33, 45, { align: 'center' });
+    document.addImage(this.barcodeData, 'JPG', x, y, this.cellWidth - 2, this.cellHeight - 2);
     colPos++;
     if (colPos >= this.columnsPerPage) {
       colPos = 0;
@@ -136,11 +176,17 @@ export class QrcodeComponent implements OnInit {
     }
 
     if (index === this.progressMax - 1) {
-
+      // setTimeout(() => {
       document.save(`QR-Codes.pdf`);
+      // }, 31000)
     } else {
-      requestAnimationFrame(() => this.generatePDF(serial, index + 1, document, colPos, rowPos));
+      requestAnimationFrame(() => this.generatePDF(index + 1, document, colPos, rowPos));
     }
+  }
+
+  exportAsXLSX(): void {
+    console.log(this.excel);
+    this.excelService.exportAsExcelFile(this.excel, 'osram-excel');
   }
 
 }

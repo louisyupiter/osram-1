@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [loader]="isLoading">
   <div class="container">
     <div class="logo-1">
       <img src="../../../assets/image/logo/logo-osram.png" alt="" />
@@ -15,7 +15,12 @@
   >
     <h4>Masukan nomor seri Anda</h4>
     <div class="form-group">
-      <input class="form-control" formControlName="serial_number" type="text" />
+      <input
+        class="form-control"
+        formControlName="serial_number"
+        type="text"
+        [textMask]="maskconfig"
+      />
     </div>
     <div
       *ngIf="
@@ -26,23 +31,24 @@
       class="alert alert-danger"
     >
       <div *ngIf="serialNumberForm.controls['serial_number'].errors">
-        Serial Number dibutuhkan.
+        Silahkan inputkan Serial Number.
       </div>
     </div>
 
     <p class="description">Lihat nomor seri pada bagian bawah QR Code</p>
     <p>Contoh : OSY12345678</p>
 
+    <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Serial number salah, mohon inputkan kembali dengan benar.
+    </div>
+
     <div class="btn-wrapper">
       <button
         type="submit"
-        [disabled]="serialNumberForm.pristine || serialNumberForm.invalid"
         class="btn"
       >
         Lanjutkan
       </button>
     </div>
   </form>
-
-
 </div>

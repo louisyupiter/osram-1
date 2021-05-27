@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [loader]="isLoading">
   <div class="wrapper-logo">
     <div class="logo-1">
       <img src="../../../assets/image/logo/logo-osram.png" alt="" />
@@ -15,12 +15,17 @@
     novalidate
   >
     <div class="form-group">
-      <input
-        class="form-control"
-        formControlName="nama_bengkel"
-        placeholder="Nama Bengkel"
-        type="text"
-      />
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.nama_bengkel.errors }"
+      >
+        <input
+          class="form-control"
+          formControlName="nama_bengkel"
+          placeholder="Nama Bengkel"
+          type="text"
+          [textMask]="maskconfig"
+        />
+      </p>
     </div>
     <div
       *ngIf="
@@ -31,17 +36,22 @@
       class="alert alert-danger"
     >
       <div *ngIf="bengkelForm.controls['nama_bengkel'].errors">
-        Nama Bengkel dibutuhkan.
+        Silahkan Input Nama Bengkel.
       </div>
     </div>
 
     <div class="form-group">
-      <input
-        class="form-control"
-        formControlName="alamat_bengkel"
-        placeholder="Alamat Bengkel"
-        type="text"
-      />
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.alamat_bengkel.errors }"
+      >
+        <input
+          class="form-control"
+          formControlName="alamat_bengkel"
+          placeholder="Alamat Bengkel"
+          type="text"
+          [textMask]="maskconfig"
+        />
+      </p>
     </div>
     <div
       *ngIf="
@@ -52,17 +62,22 @@
       class="alert alert-danger"
     >
       <div *ngIf="bengkelForm.controls['alamat_bengkel'].errors">
-        Alamat Bengkel dibutuhkan.
+        Silahkan Input Alamat Bengkel.
       </div>
     </div>
 
     <div class="form-group">
-      <input
-        class="form-control"
-        formControlName="pemilik_bengkel"
-        placeholder="Nama Pemilik Bengkel"
-        type="text"
-      />
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.pemilik_bengkel.errors }"
+      >
+        <input
+          class="form-control"
+          formControlName="pemilik_bengkel"
+          placeholder="Nama Pemilik Bengkel"
+          type="text"
+          [textMask]="maskconfig"
+        />
+      </p>
     </div>
     <div
       *ngIf="
@@ -73,18 +88,16 @@
       class="alert alert-danger"
     >
       <div *ngIf="bengkelForm.controls['pemilik_bengkel'].errors">
-        Nama Pemilik Bengkel dibutuhkan.
+        Silahkan Input Nama Pemilik Bengkel.
       </div>
     </div>
 
+    <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Mohon inputkan kembali dengan benar.
+    </div>
+
     <div class="btn-wrapper">
-      <button
-        type="submit"
-        [disabled]="bengkelForm.pristine || bengkelForm.invalid"
-        class="btn"
-      >
-        Lanjutkan
-      </button>
+      <button type="submit" class="btn">Lanjutkan</button>
     </div>
   </form>
 </div>

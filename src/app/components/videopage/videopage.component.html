@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container" [loader]="isLoading">
   <div class="container">
     <div class="logo-1">
-      <img src="../../../assets/image/logo/logo-osram.png" alt="">
+      <img src="../../../assets/image/logo/logo-osram.png" alt="" />
     </div>
     <div class="logo-2">
-      <img src="../../../assets/image/logo/logo-yoong.png" alt="">
+      <img src="../../../assets/image/logo/logo-yoong.png" alt="" />
     </div>
   </div>
 
@@ -14,21 +14,21 @@
         <ng-template swiperSlide>
           <img
             class="w-100 d-block"
-            src="../../../assets/image/cars/cars1.jpg"
+            src="../../../assets/image/slides/slide1.jpg"
             alt="slide1"
           />
         </ng-template>
         <ng-template swiperSlide>
           <img
             class="w-100 d-block"
-            src="../../../assets/image/cars/cars2.jpg"
+            src="../../../assets/image/slides/slide2.jpg"
             alt="slide2"
           />
         </ng-template>
         <ng-template swiperSlide>
           <img
             class="w-100 d-block"
-            src="../../../assets/image/cars/cars3.jpg"
+            src="../../../assets/image/slides/slide3.jpg"
             alt="slide3"
           />
         </ng-template>
@@ -41,18 +41,12 @@
   </div>
   <div class="container wrapper-description">
     <p>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      Lorem Ipsum has been the industry's standard dummy text ever since the
-      1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but
-      also the leap into electronic typesetting, remaining essentially
-      unchanged. It was popularised in the 1960s with the release of Letraset
-      sheets containing Lorem Ipsum passages, and more recently with desktop
-      publishing software like Aldus PageMaker including versions of Lorem Ipsum
+      Meet the future with OSRAM LEDriving CBI Pro. Classic beam pattern and OEM
+      quality will definitely upgrade your vehicle performance
     </p>
   </div>
 
-  <div class="container">
+  <div class="container" *ngIf="isFilled">
     <div class="data-pembeli-wrapper">
       <h3>Data Pembeli</h3>
       <div class="data-pembeli">
@@ -60,48 +54,47 @@
           <tr>
             <td>S/N</td>
             <td>:</td>
-            <td>OSY12345678</td>
+            <td>{{ serialNumber }}</td>
           </tr>
           <tr>
             <td>Nama Pembeli</td>
             <td>:</td>
-            <td>Efren Reyes</td>
+            <td>{{ namaPembeli }}</td>
           </tr>
           <tr>
             <td>No. Pol</td>
             <td>:</td>
-            <td>B 1454 LAH</td>
+            <td>{{ noPol }}</td>
           </tr>
           <tr>
             <td>Merk Mobil</td>
             <td>:</td>
-            <td>Nissan GT-R</td>
+            <td>{{ merkMobil }}</td>
           </tr>
           <tr>
             <td>No. Invoice</td>
             <td>:</td>
-            <td>A-12345</td>
+            <td>{{ noInvoice }}</td>
           </tr>
           <tr>
             <td>Tgl. Pembelian</td>
             <td>:</td>
-            <td>4 Mei 2021</td>
+            <td>{{ datebuy }}</td>
           </tr>
-          
+
           <tr>
             <td>Tgl. Akhir Garansi</td>
             <td>:</td>
-            <td>4 Mei 2022</td>
+            <td>{{ dategaransi }}</td>
           </tr>
         </table>
       </div>
     </div>
   </div>
 
-  <div class="container btn-wrapper">
-    <div class="btn text-center" [routerLink]="['/customer']">DAFTAR GARANSI</div>
+  <div class="container btn-wrapper" *ngIf="!isFilled">
+    <div class="btn text-center" [routerLink]="['/customer/'+idqrcode]">
+      DAFTAR GARANSI
+    </div>
   </div>
-
-
-
 </div>

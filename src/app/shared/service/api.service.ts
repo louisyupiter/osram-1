@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
 import { Penjual } from '../models/Penjual';
 import { SerialNumber } from '../models/SerialNumber';
 import { Pembeli } from '../models/Pembeli';
+import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
 
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient) { }
 
     createQrcode(): any {
         return this.http
             .post<any>(`${environment.baseUrl}code/create`, null)
             .subscribe(
-                (success) => {
-                    console.log(success.data.serial_number);
+                (res) => {
+                    console.log(res);
                     // this.router.navigate([`/home`]);
                 },
                 (err) => {
@@ -26,26 +26,25 @@ export class ApiService {
             );
     }
 
-    validateQrcode(serialnumber: SerialNumber): any {
+    getAllunPrintQrcode(): Observable<any[]> {
+        return this.http.get<any>(`${environment.baseUrl}code/`);
+    }
+
+    printQrcode(): Observable<any[]> {
+        return this.http.get<any>(`${environment.baseUrl}code/print`);
+    }
+
+    validateQrcode(serialnumber: SerialNumber): Observable<any[]> {
         return this.http
-            .post<any>(`${environment.baseUrl}code/validate`, serialnumber)
-            .subscribe(
-                (success) => {
-                    console.log(success);
-                    // this.router.navigate([`/home`]);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+            .post<any>(`${environment.baseUrl}code/validate`, serialnumber);
     }
 
     getAllPenjual(): any {
         return this.http
             .get<any>(`${environment.baseUrl}penjual`)
             .subscribe(
-                (success) => {
-                    console.log(success);
+                (res) => {
+                    console.log(res);
                     // this.router.navigate([`/home`]);
                 },
                 (err) => {
@@ -54,73 +53,27 @@ export class ApiService {
             );
     }
 
-    getPenjual(idqrcode: string): any {
+    getPenjual(idqrcode: string): Observable<any[]> {
         return this.http
-            .get<any>(`${environment.baseUrl}penjual/${idqrcode}`)
-            .subscribe(
-                (success) => {
-                    console.log(success);
-                    // this.router.navigate([`/home`]);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+            .get<any>(`${environment.baseUrl}penjual/${idqrcode}`);
     }
 
-    updatePenjual(idqrcode: string, penjual: Penjual): any {
+    updatePenjual(idqrcode: string, penjual: Penjual): Observable<any[]> {
         return this.http
-            .post<any>(`${environment.baseUrl}penjual/${idqrcode}`, penjual)
-            .subscribe(
-                (success) => {
-                    console.log(success);
-                    // this.router.navigate([`/home`]);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+            .post<any>(`${environment.baseUrl}penjual/${idqrcode}`, penjual);
     }
 
-    getAllPembeli(): any {
-        return this.http
-            .get<any>(`${environment.baseUrl}pembeli`)
-            .subscribe(
-                (success) => {
-                    console.log(success);
-                    // this.router.navigate([`/home`]);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+    getAllPembeli(): Observable<any[]> {
+        return this.http.get<any>(`${environment.baseUrl}pembeli`);
     }
 
-    getPembeli(idqrcode: string): any {
+    getPembeli(idqrcode: string): Observable<any[]> {
         return this.http
-            .get<any>(`${environment.baseUrl}pembeli/${idqrcode}`)
-            .subscribe(
-                (success) => {
-                    console.log(success);
-                    // this.router.navigate([`/home`]);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+            .get<any>(`${environment.baseUrl}pembeli/${idqrcode}`);
     }
 
-    updatePembeli(idqrcode: string, pembeli: Pembeli): any {
+    updatePembeli(idqrcode: string, pembeli: Pembeli): Observable<any[]> {
         return this.http
-            .post<any>(`${environment.baseUrl}pembeli/${idqrcode}`, pembeli)
-            .subscribe(
-                (success) => {
-                    console.log(success);
-                    // this.router.navigate([`/home`]);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+            .post<any>(`${environment.baseUrl}pembeli/${idqrcode}`, pembeli);
     }
 }
