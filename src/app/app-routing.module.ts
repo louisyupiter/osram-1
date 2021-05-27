@@ -10,10 +10,6 @@ const routes: Routes = [
   },
   { path: '',   redirectTo: '/serialnumber', pathMatch: 'full' },
   {
-    path: '',
-    loadChildren: () => import('./shared/module/formpenjual/formpenjual.module').then(m => m.FormpenjualModule),
-  },
-  {
     path: 'welcome/:idqrcode',
     loadChildren: () => import('./shared/module/videopage/videopage.module').then(m => m.VideopageModule)
   },
@@ -29,6 +25,10 @@ const routes: Routes = [
     path: 'qrcode',
     loadChildren: () => import('./shared/module/qrcode/qrcode.module').then(m => m.QrcodeModule),
     canActivate: [AuthGuard],
+  },
+  {
+    path: '',
+    loadChildren: () => import('./shared/module/formpenjual/formpenjual.module').then(m => m.FormpenjualModule),
   },
 
 ];
