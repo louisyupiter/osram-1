@@ -9,7 +9,7 @@ const routes: Routes = [
     loadChildren: () => import('./shared/module/serialnumber/serialnumber.module').then(m => m.SerialnumberModule)
   },
   {
-    path: 'bengkel/:idqrcode',
+    path: ':idqrcode',
     loadChildren: () => import('./shared/module/formpenjual/formpenjual.module').then(m => m.FormpenjualModule)
   },
   {
