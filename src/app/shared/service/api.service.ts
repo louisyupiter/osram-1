@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Penjual } from '../models/Penjual';
 import { SerialNumber } from '../models/SerialNumber';
 import { Pembeli } from '../models/Pembeli';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -71,8 +73,37 @@ export class ApiService {
         return this.http.get<any>(`${environment.baseUrl}pembeli/${idqrcode}`);
     }
 
-    updatePembeli(idqrcode: string, pembeli: Pembeli): Observable<any[]> {
+    updatePembeli(
+        idqrcode: string,
+        // tslint:disable-next-line:variable-name
+        nama_pembeli: string,
+        // tslint:disable-next-line:variable-name
+        nomor_polisi: string,
+        // tslint:disable-next-line:variable-name
+        merk_mobil: string,
+        // tslint:disable-next-line:variable-name
+        no_invoice: string,
+        deskripsi: string
+    ): Observable<any[]> {
+        let pembeliData: Pembeli;
+        pembeliData = {
+            nama_pembeli,
+            nomor_polisi,
+            merk_mobil,
+            no_invoice,
+            deskripsi
+        };
+
         return this.http
-            .post<any>(`${environment.baseUrl}pembeli/${idqrcode}`, pembeli);
+            .post<any>(`${environment.baseUrl}pembeli/${idqrcode}`, pembeliData);
+    }
+
+    updatePembeliImage(idqrcode: string, image: any): any {
+        return this.http
+            .post<any>(`${environment.baseUrl}pembeli/image/${idqrcode}`, image);
+    }
+    updatePembeliVideo(idqrcode: string, video: any): Observable<any[]> {
+        return this.http
+            .post<any>(`${environment.baseUrl}pembeli/video/${idqrcode}`, video);
     }
 }
