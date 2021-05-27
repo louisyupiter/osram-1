@@ -5,12 +5,13 @@ import { AuthGuard } from './components/auth/auth.guard';
 const routes: Routes = [
 
   {
-    path: '',
+    path: 'serialnumber',
     loadChildren: () => import('./shared/module/serialnumber/serialnumber.module').then(m => m.SerialnumberModule)
   },
+  { path: '',   redirectTo: '/serialnumber', pathMatch: 'full' },
   {
-    path: ':idqrcode',
-    loadChildren: () => import('./shared/module/formpenjual/formpenjual.module').then(m => m.FormpenjualModule)
+    path: '',
+    loadChildren: () => import('./shared/module/formpenjual/formpenjual.module').then(m => m.FormpenjualModule),
   },
   {
     path: 'welcome/:idqrcode',
@@ -28,7 +29,7 @@ const routes: Routes = [
     path: 'qrcode',
     loadChildren: () => import('./shared/module/qrcode/qrcode.module').then(m => m.QrcodeModule),
     canActivate: [AuthGuard],
-  }
+  },
 
 ];
 

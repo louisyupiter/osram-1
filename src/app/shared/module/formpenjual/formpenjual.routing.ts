@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormPenjualComponent } from '../../../components/registerfirst/formpenjual/formpenjual.component';
 
 const routes: Routes = [
-    { path: '', component: FormPenjualComponent },
+    { path: ':idqrcode', component: FormPenjualComponent },
 ];
 @NgModule({
     imports: [RouterModule.forChild(routes)],
