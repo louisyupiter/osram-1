@@ -8,13 +8,15 @@
     <div class="form-group">
       <label for="nama_pembeli">Nama Pembeli <span>*</span></label>
       <p
-        [ngClass]="{ 'has-error': isSubmitted && formControls.nama_pembeli.errors }"
+        [ngClass]="{
+          'has-error': isSubmitted && formControls.nama_pembeli.errors
+        }"
       >
-      <input
-        class="form-control"
-        formControlName="nama_pembeli"
-        type="text"
-      />
+        <input
+          class="form-control"
+          formControlName="nama_pembeli"
+          type="text"
+        />
       </p>
     </div>
     <div
@@ -33,14 +35,16 @@
     <div class="form-group">
       <label for="nomor_polisi">No Pol <span>*</span></label>
       <p
-        [ngClass]="{ 'has-error': isSubmitted && formControls.nomor_polisi.errors }"
+        [ngClass]="{
+          'has-error': isSubmitted && formControls.nomor_polisi.errors
+        }"
       >
-      <input
-        class="form-control"
-        formControlName="nomor_polisi"
-        type="text"
-        [textMask]="maskconfig"
-      />
+        <input
+          class="form-control"
+          formControlName="nomor_polisi"
+          type="text"
+          [textMask]="maskconfig"
+        />
       </p>
     </div>
     <div
@@ -59,13 +63,11 @@
     <div class="form-group">
       <label for="merk_mobil">Merk Mobil <span>*</span></label>
       <p
-        [ngClass]="{ 'has-error': isSubmitted && formControls.merk_mobil.errors }"
+        [ngClass]="{
+          'has-error': isSubmitted && formControls.merk_mobil.errors
+        }"
       >
-      <input
-        class="form-control"
-        formControlName="merk_mobil"
-        type="text"
-      />
+        <input class="form-control" formControlName="merk_mobil" type="text" />
       </p>
     </div>
     <div
@@ -84,13 +86,11 @@
     <div class="form-group">
       <label for="no_invoice">No. Invoice <span>*</span></label>
       <p
-        [ngClass]="{ 'has-error': isSubmitted && formControls.no_invoice.errors }"
+        [ngClass]="{
+          'has-error': isSubmitted && formControls.no_invoice.errors
+        }"
       >
-      <input
-        class="form-control"
-        formControlName="no_invoice"
-        type="text"
-      />
+        <input class="form-control" formControlName="no_invoice" type="text" />
       </p>
     </div>
     <div
@@ -122,8 +122,28 @@
         pengambilan foto.
       </p>
       <img class="image-preview" [src]="imgFile" *ngIf="imgFile" height="200" />
-      <div class="btn-upload upload-foto" [ngClass]="{ 'has-error': isSubmitted && formControls.no_invoice.errors }">Upload File</div>
+
+      <div
+        class="btn-upload upload-foto"
+        (click)="imagePicker.click()"
+        [ngClass]="{
+          'has-error': isSubmitted && formControls.no_invoice.errors
+        }"
+      >
+        Choose Image
+      </div>
+      <div
+      *ngIf="choosenimg"
+        class="btn-upload upload-foto"
+        (click)="onSubmitImage()"
+        [ngClass]="{
+          'has-error': isSubmitted && formControls.no_invoice.errors
+        }"
+      >
+        Upload Image
+      </div>
       <input
+        #imagePicker
         type="file"
         accept="image/x-png,image/gif,image/jpeg"
         class="form-control d-none"
@@ -155,8 +175,18 @@
         height="200"
         controls
       ></video>
-      <div class="btn-upload upload-video">Upload File</div>
+      <div class="btn-upload upload-video" (click)="videoPicker.click()">
+        Choose Video
+      </div>
+      <div
+      *ngIf="choosenvideo"
+        class="btn-upload upload-video"
+        (click)="onSubmitVideo()"
+      >
+        Upload Video
+      </div>
       <input
+        #videoPicker
         type="file"
         class="form-control d-none"
         accept="video/*"

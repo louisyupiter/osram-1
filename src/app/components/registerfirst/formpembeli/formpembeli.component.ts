@@ -21,7 +21,11 @@ export class FormpembeliComponent implements OnInit {
 
   pembeliForm!: FormGroup;
   imgFile = '';
+  imgData: any;
+  choosenimg = false;
   videoFile = '';
+  videoData: any;
+  choosenvideo: any;
 
   arrmask: any[] = [];
   arrmask2: any[] = [];
@@ -75,14 +79,6 @@ export class FormpembeliComponent implements OnInit {
     this.createForm();
     this.mask();
     this.mask2();
-
-    $('.btn-upload.upload-foto').click(() => {
-      $('input#foto').click();
-    });
-    $('.btn-upload.upload-video').click(() => {
-      $('input#video').click();
-    });
-
   }
 
   mask(): any {
@@ -110,47 +106,97 @@ export class FormpembeliComponent implements OnInit {
       merk_mobil: ['', Validators.required],
       no_invoice: ['', Validators.required],
       deskripsi: [''],
-      image: ['', {validators: Validators.required, asyncValidators: [mimeType]}],
+      image: ['', { validators: Validators.required, asyncValidators: [mimeType] }],
       video: [''],
     });
   }
 
-
-
   onImageChange(event: any): void {
     const reader = new FileReader();
-    if (event.target.files && event.target.files.length) {
+    if (event.target.value) {
       const [file] = event.target.files;
-      console.log(file);
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.imgFile = reader.result as string;
-        this.pembeliForm.patchValue({
-          image: reader.result
-        });
       };
-      reader.readAsDataURL(file);
+      this.imgData = (event.target.files[0] as File);
+      this.choosenimg = true;
+    }
+  }
+
+  onSubmitImage(): void {
+    const fd = new FormData();
+    if (this.imgData) {
+      fd.append('image', this.imgData, this.imgData.name);
+      this.apiService.updatePembeliImage(this.idqrcode, fd)
+        .subscribe(
+          (res: any) => {
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          },
+          () => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Terjadi Kesalahan',
+              text: 'Silahkan isi kembali data dengan benar!',
+              confirmButtonText: `Kembali`,
+            }).then((_) => {
+            });
+          }
+        );
     }
   }
 
   onVideoChange(event: any): void {
     const reader = new FileReader();
-    if (event.target.files && event.target.files.length) {
+    if (event.target.value) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.videoFile = reader.result as string;
-        this.pembeliForm.patchValue({
-          video: reader.result
-        });
-
       };
+      this.videoData = (event.target.files[0] as File);
+      this.choosenvideo = true;
+    }
+  }
+
+  onSubmitVideo(): void {
+    const fd = new FormData();
+    if (this.videoData) {
+      fd.append('video', this.videoData, this.videoData.name);
+      this.apiService.updatePembeliVideo(this.idqrcode, fd)
+        .subscribe(
+          (res: any) => {
+            Swal.fire({
+              text: 'Video berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          },
+          () => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Terjadi Kesalahan',
+              text: 'Silahkan isi kembali data dengan benar!',
+              confirmButtonText: `Kembali`,
+            }).then((_) => {
+            });
+          }
+        );
     }
   }
 
   onSubmit(formData: any): void {
-    // const serialnumber = formData;
-    // console.log(serialnumber);
+    const namapembeli = formData.nama_pembeli;
+    const nomorpolisi = formData.nomor_polisi;
+    const merkmobil = formData.merk_mobil;
+    const noinvoice = formData.no_invoice;
+    const deskripsi = formData.deskripsi;
 
     this.isSubmitted = true;
     this.isLoading = true;
@@ -160,10 +206,9 @@ export class FormpembeliComponent implements OnInit {
       return;
     }
 
-
-    this.apiService.updatePembeli(this.idqrcode, this.pembeliForm.value)
+    this.apiService.updatePembeli(this.idqrcode, namapembeli, nomorpolisi, merkmobil, noinvoice, deskripsi)
       .subscribe(
-        (res) => {
+        (res: any) => {
           this.isLoading = false;
           this.isUnvalidated = false;
           Swal.fire({
@@ -178,7 +223,7 @@ export class FormpembeliComponent implements OnInit {
 
             });
         },
-        (err) => {
+        (err: any) => {
           this.isLoading = false;
           this.isUnvalidated = true;
           Swal.fire({
