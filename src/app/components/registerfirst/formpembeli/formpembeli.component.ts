@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/service/api.service';
+import { mimeType } from './mime-type.validator';
 import Swal from 'sweetalert2';
 
 declare const $: any;
@@ -48,7 +49,7 @@ export class FormpembeliComponent implements OnInit {
         this.isLoading = false;
         const data = res.data;
         this.pembeliForm.patchValue({
-          nama_pembeli: data.nama_bengkel,
+          nama_pembeli: data.nama_pembeli,
           nomor_polisi: data.nomor_polisi,
           merk_mobil: data.merk_mobil,
           no_invoice: data.no_invoice,
@@ -109,16 +110,18 @@ export class FormpembeliComponent implements OnInit {
       merk_mobil: ['', Validators.required],
       no_invoice: ['', Validators.required],
       deskripsi: [''],
-      image: ['', Validators.required],
+      image: ['', {validators: Validators.required, asyncValidators: [mimeType]}],
       video: [''],
     });
   }
 
+
+
   onImageChange(event: any): void {
     const reader = new FileReader();
-
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
+      console.log(file);
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.imgFile = reader.result as string;
@@ -126,6 +129,7 @@ export class FormpembeliComponent implements OnInit {
           image: reader.result
         });
       };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -156,8 +160,6 @@ export class FormpembeliComponent implements OnInit {
       return;
     }
 
-    console.log(this.pembeliForm.value);
-    console.log(this.idqrcode);
 
     this.apiService.updatePembeli(this.idqrcode, this.pembeliForm.value)
       .subscribe(
@@ -183,7 +185,7 @@ export class FormpembeliComponent implements OnInit {
             icon: 'error',
             title: 'Terjadi Kesalahan',
             text: 'Silahkan isi kembali data dengan benar!',
-            confirmButtonText: `Isi Ulang Serial Number`,
+            confirmButtonText: `Kembali`,
           }).then((_) => {
 
           });

@@ -68,8 +68,7 @@ export class ApiService {
     }
 
     getPembeli(idqrcode: string): Observable<any[]> {
-        return this.http
-            .get<any>(`${environment.baseUrl}pembeli/${idqrcode}`);
+        return this.http.get<any>(`${environment.baseUrl}pembeli/${idqrcode}`);
     }
 
     updatePembeli(idqrcode: string, pembeli: Pembeli): Observable<any[]> {
