@@ -30,16 +30,13 @@
       "
       class="alert alert-danger"
     >
-      <div *ngIf="serialNumberForm.controls['serial_number'].errors">
-        Silahkan inputkan Serial Number.
+      <div *ngIf="serialNumberForm.controls['serial_number'].errors || isUnvalidated">
+        Silahkan inputkan Serial Number terlebih dahulu.
       </div>
     </div>
-    <div *ngIf="isUnvalidated" class="alert alert-danger">
-      Serial number salah, mohon inputkan kembali dengan benar.
-    </div>
+
     <p class="description">Lihat nomor seri pada bagian bawah QR Code</p>
     <p>Contoh : OSY12345678</p>
-
 
 
     <div class="btn-wrapper">
