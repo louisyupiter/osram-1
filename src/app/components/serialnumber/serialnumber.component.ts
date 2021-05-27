@@ -60,7 +60,7 @@ export class SerialnumberComponent implements OnInit {
       (res: any) => {
         this.isLoading = false;
         this.isUnvalidated = false;
-        this.router.navigateByUrl('/bengkel/' + res.data._id);
+        this.router.navigateByUrl('/bengkel/' + res.data.serial_number);
       },
       (err: any) => {
         this.isLoading = false;
