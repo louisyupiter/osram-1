@@ -30,15 +30,14 @@ export class FormPenjualComponent implements OnInit {
     ngOnInit(): void {
         this.isLoading = true;
         this.idqrcode = this.activatedRoute.snapshot.paramMap.get('idqrcode');
-
-        this.apiService.getPembeli(this.idqrcode).subscribe((res: any) => {
-            if (res.data.nama_pembeli !== '') {
-                this.router.navigate(['/welcome/' + this.idqrcode]);
-            }
-        });
-
         this.apiService.getPenjual(this.idqrcode).subscribe(
             (res: any) => {
+                console.log(res);
+                this.apiService.getPembeli(res.data._idQrcode).subscribe((res2: any) => {
+                    if (res2.data.nama_pembeli !== '') {
+                        this.router.navigate(['/welcome/' + res.data._idQrcode]);
+                    }
+                });
                 this.isLoading = false;
                 this.bengkelForm.patchValue({
                     nama_bengkel: res.data.nama_bengkel,
@@ -96,11 +95,11 @@ export class FormPenjualComponent implements OnInit {
             return;
         }
         this.apiService.updatePenjual(this.idqrcode, this.bengkelForm.value).subscribe(
-            (res) => {
-                // console.log(res);
+            (res: any) => {
+                console.log(res);
                 this.isLoading = false;
                 this.isUnvalidated = false;
-                this.router.navigate(['/welcome/' + this.idqrcode]);
+                this.router.navigate(['/welcome/' + res.data._idQrcode]);
             },
             (err) => {
                 // console.log(err);
