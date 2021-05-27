@@ -155,3 +155,10 @@ textarea {
 ::ng-deep .swal2-styled.swal2-confirm:focus {
   box-shadow: none;
 }
+
+.has-error,
+.has-error input[type="text"],
+.has-error input[type="password"] {
+  border-color: rgb(216, 12, 12) !important;
+  color: rgb(230, 14, 14);
+}
