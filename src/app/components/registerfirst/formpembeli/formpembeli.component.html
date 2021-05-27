@@ -7,11 +7,15 @@
     <h3>Data Pembeli</h3>
     <div class="form-group">
       <label for="nama_pembeli">Nama Pembeli <span>*</span></label>
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.nama_pembeli.errors }"
+      >
       <input
         class="form-control"
         formControlName="nama_pembeli"
         type="text"
       />
+      </p>
     </div>
     <div
       *ngIf="
@@ -27,34 +31,42 @@
     </div>
 
     <div class="form-group">
-      <label for="no_pol">No Pol <span>*</span></label>
+      <label for="nomor_polisi">No Pol <span>*</span></label>
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.nomor_polisi.errors }"
+      >
       <input
         class="form-control"
-        formControlName="no_pol"
+        formControlName="nomor_polisi"
         type="text"
         [textMask]="maskconfig"
       />
+      </p>
     </div>
     <div
       *ngIf="
-        pembeliForm.controls['no_pol'].invalid &&
-        (pembeliForm.controls['no_pol'].dirty ||
-          pembeliForm.controls['no_pol'].touched)
+        pembeliForm.controls['nomor_polisi'].invalid &&
+        (pembeliForm.controls['nomor_polisi'].dirty ||
+          pembeliForm.controls['nomor_polisi'].touched)
       "
       class="alert alert-danger"
     >
-      <div *ngIf="pembeliForm.controls['no_pol'].errors">
+      <div *ngIf="pembeliForm.controls['nomor_polisi'].errors">
         Silahkan Input No Polisi.
       </div>
     </div>
 
     <div class="form-group">
       <label for="merk_mobil">Merk Mobil <span>*</span></label>
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.merk_mobil.errors }"
+      >
       <input
         class="form-control"
         formControlName="merk_mobil"
         type="text"
       />
+      </p>
     </div>
     <div
       *ngIf="
@@ -71,11 +83,15 @@
 
     <div class="form-group">
       <label for="no_invoice">No. Invoice <span>*</span></label>
+      <p
+        [ngClass]="{ 'has-error': isSubmitted && formControls.no_invoice.errors }"
+      >
       <input
         class="form-control"
         formControlName="no_invoice"
         type="text"
       />
+      </p>
     </div>
     <div
       *ngIf="
@@ -91,46 +107,46 @@
     </div>
 
     <div class="form-group">
-      <label for="description">Deskripsi</label>
+      <label for="deskripsi">Deskripsi</label>
       <textarea
         class="form-control"
-        formControlName="description"
+        formControlName="deskripsi"
         maxlength="150"
       ></textarea>
     </div>
 
     <div class="form-group">
-      <label for="description">Foto <span>*</span></label>
+      <label for="deskripsi">Foto <span>*</span></label>
       <p class="info">
         Pastikan box dan plat nomor kendaraan terlihat dengan jelas pada saat
         pengambilan foto.
       </p>
       <img class="image-preview" [src]="imgFile" *ngIf="imgFile" height="200" />
-      <div class="btn-upload upload-foto">Upload File</div>
+      <div class="btn-upload upload-foto" [ngClass]="{ 'has-error': isSubmitted && formControls.no_invoice.errors }">Upload File</div>
       <input
         type="file"
         accept="image/x-png,image/gif,image/jpeg"
         class="form-control d-none"
         id="foto"
-        formControlName="foto"
+        formControlName="image"
         (change)="onImageChange($event)"
       />
       <div
         *ngIf="
-          pembeliForm.controls['foto'].invalid &&
-          (pembeliForm.controls['foto'].dirty ||
-            pembeliForm.controls['foto'].touched)
+          pembeliForm.controls['image'].invalid &&
+          (pembeliForm.controls['image'].dirty ||
+            pembeliForm.controls['image'].touched)
         "
         class="alert alert-danger"
       >
-        <div *ngIf="pembeliForm.controls['foto'].errors">
+        <div *ngIf="pembeliForm.controls['image'].errors">
           Image file is required.
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="description">Video</label>
+      <label for="video">Video</label>
       <p class="info">Maksimal 10 detik. (Maks. 5 MB)</p>
       <video
         class="video-preview"

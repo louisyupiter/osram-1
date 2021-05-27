@@ -49,10 +49,10 @@ export class FormpembeliComponent implements OnInit {
         const data = res.data;
         this.pembeliForm.patchValue({
           nama_pembeli: data.nama_bengkel,
-          no_pol: data.no_pol,
+          nomor_polisi: data.nomor_polisi,
           merk_mobil: data.merk_mobil,
           no_invoice: data.no_invoice,
-          description: data.description
+          deskripsi: data.deskripsi
         });
       },
       err => {
@@ -105,11 +105,11 @@ export class FormpembeliComponent implements OnInit {
   createForm(): void {
     this.pembeliForm = this.fb.group({
       nama_pembeli: ['', Validators.required],
-      no_pol: ['', Validators.required],
+      nomor_polisi: ['', Validators.required],
       merk_mobil: ['', Validators.required],
       no_invoice: ['', Validators.required],
-      description: [''],
-      foto: ['', Validators.required],
+      deskripsi: [''],
+      image: ['', Validators.required],
       video: [''],
     });
   }
@@ -123,7 +123,7 @@ export class FormpembeliComponent implements OnInit {
       reader.onload = () => {
         this.imgFile = reader.result as string;
         this.pembeliForm.patchValue({
-          foto: reader.result
+          image: reader.result
         });
       };
     }
@@ -157,6 +157,7 @@ export class FormpembeliComponent implements OnInit {
     }
 
     console.log(this.pembeliForm.value);
+    console.log(this.idqrcode);
 
     this.apiService.updatePembeli(this.idqrcode, this.pembeliForm.value)
       .subscribe(
@@ -178,6 +179,14 @@ export class FormpembeliComponent implements OnInit {
         (err) => {
           this.isLoading = false;
           this.isUnvalidated = true;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan isi kembali data dengan benar!',
+            confirmButtonText: `Isi Ulang Serial Number`,
+          }).then((_) => {
+
+          });
         }
       );
   }
