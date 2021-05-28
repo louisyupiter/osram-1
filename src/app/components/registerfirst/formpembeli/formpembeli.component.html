@@ -16,6 +16,7 @@
           class="form-control"
           formControlName="nama_pembeli"
           type="text"
+          [textMask]="maskconfig2"
         />
       </p>
     </div>
@@ -73,7 +74,12 @@
           'has-error': isSubmitted && formControls.merk_mobil.errors
         }"
       >
-        <input class="form-control" formControlName="merk_mobil" type="text" />
+        <input
+          class="form-control"
+          formControlName="merk_mobil"
+          type="text"
+          [textMask]="maskconfig2"
+        />
       </p>
     </div>
     <div
@@ -99,7 +105,8 @@
           'has-error': isSubmitted && formControls.no_invoice.errors
         }"
       >
-        <input class="form-control" formControlName="no_invoice" type="text" />
+        <input class="form-control" formControlName="no_invoice" type="text" 
+        [textMask]="maskconfig2"/>
       </p>
     </div>
     <div

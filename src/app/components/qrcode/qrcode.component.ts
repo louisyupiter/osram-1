@@ -71,7 +71,14 @@ export class QrcodeComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getAllPembeli().subscribe(
       (res: any) => {
-        this.excel = res.data;
+        const data = res.data;
+        console.log(data[0]);
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < data.length; i++) {
+          delete data[i]._id;
+          this.excel.push(this.flattenObject(data[i]));
+        }
+
         console.log(this.excel);
 
       },
@@ -82,6 +89,20 @@ export class QrcodeComponent implements OnInit {
 
     this.getAllunprinted();
     this.createForm();
+  }
+
+  flattenObject(obj: any): any {
+    const flattened: any = {};
+
+    Object.keys(obj).forEach((key) => {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        Object.assign(flattened, this.flattenObject(obj[key]));
+      } else {
+        flattened[key] = obj[key];
+      }
+    });
+
+    return flattened;
   }
 
   createForm(): void {
