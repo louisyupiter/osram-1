@@ -52,13 +52,18 @@ export class FormpembeliComponent implements OnInit {
       (res: any) => {
         this.isLoading = false;
         const data = res.data;
-        this.pembeliForm.patchValue({
-          nama_pembeli: data.nama_pembeli,
-          nomor_polisi: data.nomor_polisi,
-          merk_mobil: data.merk_mobil,
-          no_invoice: data.no_invoice,
-          deskripsi: data.deskripsi
-        });
+        if (data) {
+          this.pembeliForm.patchValue({
+            nama_pembeli: data.nama_pembeli,
+            nomor_polisi: data.nomor_polisi,
+            merk_mobil: data.merk_mobil,
+            no_invoice: data.no_invoice,
+            deskripsi: data.deskripsi
+          });
+        }
+        if (data.nama_pembeli !== '') {
+          this.router.navigate(['/welcome/' + this.idqrcode]);
+        }
       },
       err => {
         this.isLoading = true;
