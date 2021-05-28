@@ -51,7 +51,7 @@ export class VideopageComponent implements OnInit {
                 this.isLoading = false;
                 const data = res.data;
                 // const tglbeli = new Date((data.created_at).slice(0, 10).split('-'));
-                const tglbeli = (data.updatedAt).slice(0, 10).split('-');
+                const tglbeli = (data.tanggal_pengisian).slice(0, 10).split('-');
                 const fixtglbeli = `${tglbeli[2]}-${tglbeli[1]}-${tglbeli[0]}`;
                 const yearplus1 = Number(tglbeli[0]) + 1;
                 const fixtgljual = `${tglbeli[2]}-${tglbeli[1]}-${yearplus1}`;
