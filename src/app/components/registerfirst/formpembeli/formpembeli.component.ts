@@ -95,7 +95,7 @@ export class FormpembeliComponent implements OnInit {
 
   mask2(): any {
     for (let i = 0; i < 100; i++) {
-      this.arrmask2.push(/[a-zA-Z0-9_]/);
+      this.arrmask2.push(/[a-zA-Z0-9_ ]/);
     }
     return this.arrmask2;
   }
