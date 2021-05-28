@@ -52,13 +52,18 @@ export class FormpembeliComponent implements OnInit {
       (res: any) => {
         this.isLoading = false;
         const data = res.data;
-        this.pembeliForm.patchValue({
-          nama_pembeli: data.nama_pembeli,
-          nomor_polisi: data.nomor_polisi,
-          merk_mobil: data.merk_mobil,
-          no_invoice: data.no_invoice,
-          deskripsi: data.deskripsi
-        });
+        if (data) {
+          this.pembeliForm.patchValue({
+            nama_pembeli: data.nama_pembeli,
+            nomor_polisi: data.nomor_polisi,
+            merk_mobil: data.merk_mobil,
+            no_invoice: data.no_invoice,
+            deskripsi: data.deskripsi
+          });
+        }
+        if (data.nama_pembeli !== '') {
+          this.router.navigate(['/welcome/' + this.idqrcode]);
+        }
       },
       err => {
         this.isLoading = true;
@@ -82,14 +87,14 @@ export class FormpembeliComponent implements OnInit {
   }
 
   mask(): any {
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 15; i++) {
       this.arrmask.push(/[a-zA-Z0-9_ ]/);
     }
     return this.arrmask;
   }
 
   mask2(): any {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 100; i++) {
       this.arrmask2.push(/[a-zA-Z0-9_]/);
     }
     return this.arrmask2;
@@ -122,15 +127,19 @@ export class FormpembeliComponent implements OnInit {
       this.imgData = (event.target.files[0] as File);
       this.choosenimg = true;
     }
+
+    this.onSubmitImage();
   }
 
   onSubmitImage(): void {
+    this.isLoading = true;
     const fd = new FormData();
     if (this.imgData) {
       fd.append('image', this.imgData, this.imgData.name);
       this.apiService.updatePembeliImage(this.idqrcode, fd)
         .subscribe(
           (res: any) => {
+            this.isLoading = false;
             Swal.fire({
               text: 'Foto berhasil di upload!',
               confirmButtonText: `Kembali`,
@@ -139,10 +148,11 @@ export class FormpembeliComponent implements OnInit {
               });
           },
           () => {
+            this.isLoading = false;
             Swal.fire({
               icon: 'error',
               title: 'Terjadi Kesalahan',
-              text: 'Silahkan isi kembali data dengan benar!',
+              text: 'Silahkan upload ulang.',
               confirmButtonText: `Kembali`,
             }).then((_) => {
             });
@@ -162,15 +172,19 @@ export class FormpembeliComponent implements OnInit {
       this.videoData = (event.target.files[0] as File);
       this.choosenvideo = true;
     }
+
+    this.onSubmitVideo();
   }
 
   onSubmitVideo(): void {
+    this.isLoading = true;
     const fd = new FormData();
     if (this.videoData) {
       fd.append('video', this.videoData, this.videoData.name);
       this.apiService.updatePembeliVideo(this.idqrcode, fd)
         .subscribe(
           (res: any) => {
+            this.isLoading = false;
             Swal.fire({
               text: 'Video berhasil di upload!',
               confirmButtonText: `Kembali`,
@@ -179,10 +193,11 @@ export class FormpembeliComponent implements OnInit {
               });
           },
           () => {
+            this.isLoading = false;
             Swal.fire({
               icon: 'error',
-              title: 'Terjadi Kesalahan',
-              text: 'Silahkan isi kembali data dengan benar!',
+              title: 'Gagal upload',
+              text: 'Silahkan upload ulang.',
               confirmButtonText: `Kembali`,
             }).then((_) => {
             });

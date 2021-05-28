@@ -31,6 +31,9 @@
         Silahkan Input Nama Pembeli.
       </div>
     </div>
+    <!-- <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Silahkan Input Nama Pembeli.
+    </div> -->
 
     <div class="form-group">
       <label for="nomor_polisi">No Pol <span>*</span></label>
@@ -59,6 +62,9 @@
         Silahkan Input No Polisi.
       </div>
     </div>
+    <!-- <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Silahkan Input No Polisi.
+    </div> -->
 
     <div class="form-group">
       <label for="merk_mobil">Merk Mobil <span>*</span></label>
@@ -82,6 +88,9 @@
         Silahkan Input Merk Mobil.
       </div>
     </div>
+    <!-- <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Silahkan Input Merk Mobil.
+    </div> -->
 
     <div class="form-group">
       <label for="no_invoice">No. Invoice <span>*</span></label>
@@ -105,18 +114,22 @@
         Silahkan Input No. Invoice.
       </div>
     </div>
+    <!-- <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Silahkan Input No. Invoice.
+    </div> -->
 
     <div class="form-group">
       <label for="deskripsi">Deskripsi</label>
       <textarea
         class="form-control"
         formControlName="deskripsi"
-        maxlength="150"
+        maxlength="400"
       ></textarea>
     </div>
 
     <div class="form-group">
       <label for="deskripsi">Foto <span>*</span></label>
+      <p class="info">Maksimal 10 MB</p>
       <p class="info">
         Pastikan box dan plat nomor kendaraan terlihat dengan jelas pada saat
         pengambilan foto.
@@ -130,17 +143,7 @@
           'has-error': isSubmitted && formControls.no_invoice.errors
         }"
       >
-        Choose Image
-      </div>
-      <div
-      *ngIf="choosenimg"
-        class="btn-upload upload-foto"
-        (click)="onSubmitImage()"
-        [ngClass]="{
-          'has-error': isSubmitted && formControls.no_invoice.errors
-        }"
-      >
-        Upload Image
+        Pilih Gambar
       </div>
       <input
         #imagePicker
@@ -160,14 +163,17 @@
         class="alert alert-danger"
       >
         <div *ngIf="pembeliForm.controls['image'].errors">
-          Image file is required.
+          Silahkan Masukan Gambar.
         </div>
       </div>
     </div>
+    <!-- <div *ngIf="isUnvalidated" class="alert alert-danger">
+      Silahkan Masukan Gambar.
+    </div> -->
 
     <div class="form-group">
       <label for="video">Video</label>
-      <p class="info">Maksimal 10 detik. (Maks. 5 MB)</p>
+      <p class="info">Maksimal 10 MB</p>
       <video
         class="video-preview"
         [src]="videoFile"
@@ -176,14 +182,7 @@
         controls
       ></video>
       <div class="btn-upload upload-video" (click)="videoPicker.click()">
-        Choose Video
-      </div>
-      <div
-      *ngIf="choosenvideo"
-        class="btn-upload upload-video"
-        (click)="onSubmitVideo()"
-      >
-        Upload Video
+        Pilih Video
       </div>
       <input
         #videoPicker

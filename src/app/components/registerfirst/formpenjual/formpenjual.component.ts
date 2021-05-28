@@ -33,6 +33,9 @@ export class FormPenjualComponent implements OnInit {
         this.apiService.getPenjual(this.idqrcode).subscribe(
             (res: any) => {
                 console.log(res);
+                if (res.data.nama_bengkel !== '') {
+                    this.router.navigate(['/welcome/' + res.data._idQrcode]);
+                }
                 this.apiService.getPembeli(res.data._idQrcode).subscribe((res2: any) => {
                     if (res2.data.nama_pembeli !== '') {
                         this.router.navigate(['/welcome/' + res.data._idQrcode]);
@@ -65,7 +68,7 @@ export class FormPenjualComponent implements OnInit {
     }
 
     mask(): any {
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 100; i++) {
             this.arrmask.push(/[a-zA-Z0-9_ ]/);
         }
         return this.arrmask;
