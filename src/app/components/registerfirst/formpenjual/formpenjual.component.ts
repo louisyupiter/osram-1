@@ -65,7 +65,7 @@ export class FormPenjualComponent implements OnInit {
     }
 
     mask(): any {
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 100; i++) {
             this.arrmask.push(/[a-zA-Z0-9_ ]/);
         }
         return this.arrmask;
