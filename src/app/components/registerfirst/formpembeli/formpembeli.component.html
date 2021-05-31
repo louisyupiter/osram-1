@@ -141,7 +141,7 @@
         Pastikan box dan plat nomor kendaraan terlihat dengan jelas pada saat
         pengambilan foto.
       </p>
-      <img class="image-preview" [src]="imgFile" *ngIf="imgFile" height="200" />
+      <!-- <img class="image-preview" [src]="imgFile" *ngIf="imgFile" height="200" /> -->
 
       <div *ngFor="let progressInfo of progressInfos" class="mb-2">
         <span>{{ progressInfo.fileName }}</span>
@@ -198,13 +198,29 @@
     <div class="form-group">
       <label for="video">Video</label>
       <p class="info">Maksimal 10 MB</p>
-      <video
+      <!-- <video
         class="video-preview"
         [src]="videoFile"
         *ngIf="videoFile"
         height="200"
         controls
-      ></video>
+      ></video> -->
+      <div *ngFor="let progressInfoVideo of progressInfosVideo" class="mb-2">
+        <span>{{ progressInfoVideo.fileName }}</span>
+        <div class="progress">
+          <div
+            class="progress-bar progress-bar-info progress-bar-striped"
+            role="progressbar"
+            attr.aria-valuenow="{{ progressInfoVideo.value }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [ngStyle]="{ width: progressInfoVideo.value + '%' }"
+          >
+            {{ progressInfoVideo.value }}%
+          </div>
+        </div>
+      </div>
+
       <div class="btn-upload upload-video" (click)="videoPicker.click()">
         Pilih Video
       </div>

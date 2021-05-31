@@ -36,6 +36,11 @@ export class FormpembeliComponent implements OnInit {
   videoData: any;
   choosenvideo: any;
 
+  selectedVideoFiles?: FileList | undefined;
+  progressInfosVideo: any[] = [];
+  messageVideo: string[] = [];
+  fileVideoInfos?: Observable<any>;
+
   arrmask: any[] = [];
   arrmask2: any[] = [];
   maskconfig = {
@@ -132,9 +137,9 @@ export class FormpembeliComponent implements OnInit {
     this.uploadImages();
   }
   onVideoChange(event: any): void {
-    this.message = [];
-    this.progressInfos = [];
-    this.selectedFiles = event.target.files;
+    this.messageVideo = [];
+    this.progressInfosVideo = [];
+    this.selectedVideoFiles = event.target.files;
     this.uploadVideos();
   }
   uploadImages(): void {
@@ -147,11 +152,11 @@ export class FormpembeliComponent implements OnInit {
     }
   }
   uploadVideos(): void {
-    this.message = [];
+    this.messageVideo = [];
 
-    if (this.selectedFiles) {
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-        this.onSubmitVideo(i, this.selectedFiles[i]);
+    if (this.selectedVideoFiles) {
+      for (let i = 0; i < this.selectedVideoFiles.length; i++) {
+        this.onSubmitVideo(i, this.selectedVideoFiles[i]);
       }
     }
   }
@@ -164,39 +169,60 @@ export class FormpembeliComponent implements OnInit {
           if (event.type === HttpEventType.UploadProgress) {
             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
-            const msg = 'Uploaded the file successfully: ' + file.name;
-            this.message.push(msg);
-            this.fileInfos = this.apiService.getPembeliImage(this.idqrcode);
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
           }
         },
         (err: any) => {
           this.progressInfos[idx].value = 0;
-          const msg = 'Could not upload the file: ' + file.name;
-          this.message.push(msg);
-          this.fileInfos = this.apiService.getPembeliImage(this.idqrcode);
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan upload ulang.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
         });
     }
   }
 
   onSubmitVideo(idx: number, file: File): void {
-    this.progressInfos[idx] = { value: 0, fileName: file.name };
+    this.progressInfosVideo[idx] = { value: 0, fileName: file.name };
 
     if (file) {
       this.apiService.updatePembeliVideo(this.idqrcode, file).subscribe(
         (event: any) => {
           if (event.type === HttpEventType.UploadProgress) {
-            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+            this.progressInfosVideo[idx].value = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
-            const msg = 'Uploaded the file successfully: ' + file.name;
-            this.message.push(msg);
-            this.fileInfos = this.apiService.getPembeliVideo(this.idqrcode);
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Video berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
           }
         },
         (err: any) => {
-          this.progressInfos[idx].value = 0;
-          const msg = 'Could not upload the file: ' + file.name;
-          this.message.push(msg);
-          this.fileInfos = this.apiService.getPembeliVideo(this.idqrcode);
+          this.progressInfosVideo[idx].value = 0;
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal upload',
+            text: 'Silahkan upload sesuai ketentuan.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
+          // const msg = 'Could not upload the file: ' + file.name;
+          // this.messageVideo.push(msg);
+          // this.fileVideoInfos = this.apiService.getPembeliVideo(this.idqrcode);
         });
     }
   }
