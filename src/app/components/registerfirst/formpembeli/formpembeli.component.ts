@@ -4,8 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/service/api.service';
 import { mimeType } from './mime-type.validator';
 import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
-declare const $: any;
+// declare const $: any;
 
 @Component({
   selector: 'app-formpembeli',
@@ -20,22 +22,27 @@ export class FormpembeliComponent implements OnInit {
   isSubmitted = false;
 
   pembeliForm!: FormGroup;
+
   imgFile = '';
   imgData: any;
   choosenimg = false;
+
+  selectedFiles?: FileList | undefined;
+  progressInfos: any[] = [];
+  message: string[] = [];
+  fileInfos?: Observable<any>;
+
   videoFile = '';
   videoData: any;
   choosenvideo: any;
 
   arrmask: any[] = [];
   arrmask2: any[] = [];
-
   maskconfig = {
     guide: false,
     showMask: false,
     mask: this.arrmask
   };
-
   maskconfig2 = {
     guide: false,
     showMask: false,
@@ -47,6 +54,7 @@ export class FormpembeliComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.idqrcode = this.activatedRoute.snapshot.paramMap.get('idqrcode');
+    this.fileInfos = this.apiService.getPembeliImage(this.idqrcode);
 
     this.apiService.getPembeli(this.idqrcode).subscribe(
       (res: any) => {
@@ -116,50 +124,95 @@ export class FormpembeliComponent implements OnInit {
     });
   }
 
+  // mutiple files
   onImageChange(event: any): void {
-    const reader = new FileReader();
-    if (event.target.value) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.imgFile = reader.result as string;
-      };
-      this.imgData = (event.target.files[0] as File);
-      this.choosenimg = true;
-    }
-
-    this.onSubmitImage();
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    this.uploadFiles();
   }
 
-  onSubmitImage(): void {
-    this.isLoading = true;
-    const fd = new FormData();
-    if (this.imgData) {
-      fd.append('image', this.imgData, this.imgData.name);
-      this.apiService.updatePembeliImage(this.idqrcode, fd)
-        .subscribe(
-          (res: any) => {
-            this.isLoading = false;
-            Swal.fire({
-              text: 'Foto berhasil di upload!',
-              confirmButtonText: `Kembali`,
-            })
-              .then((_) => {
-              });
-          },
-          () => {
-            this.isLoading = false;
-            Swal.fire({
-              icon: 'error',
-              title: 'Terjadi Kesalahan',
-              text: 'Silahkan upload ulang.',
-              confirmButtonText: `Kembali`,
-            }).then((_) => {
-            });
+  uploadFiles(): void {
+    this.message = [];
+    console.log('test');
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitImage(i, this.selectedFiles[i]);
+      }
+    }
+  }
+
+
+  onSubmitImage(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliImage(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            const msg = 'Uploaded the file successfully: ' + file.name;
+            this.message.push(msg);
+            this.fileInfos = this.apiService.getPembeliImage(this.idqrcode);
           }
-        );
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          const msg = 'Could not upload the file: ' + file.name;
+          this.message.push(msg);
+          this.fileInfos = this.apiService.getPembeliImage(this.idqrcode);
+        });
     }
   }
+
+  // onImageChange(event: any): void {
+  //   const reader = new FileReader();
+  //   if (event.target.value) {
+  //     const [file] = event.target.files;
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => {
+  //       this.imgFile = reader.result as string;
+  //     };
+  //     this.imgData = (event.target.files[0] as File);
+  //     this.choosenimg = true;
+  //   }
+
+  //   this.onSubmitImage();
+  // }
+
+
+
+  // onSubmitImage(): void {
+  //   this.isLoading = true;
+  //   const fd = new FormData();
+  //   if (this.imgData) {
+  //     fd.append('image', this.imgData, this.imgData.name);
+  //     this.apiService.updatePembeliImage(this.idqrcode, fd)
+  //       .subscribe(
+  //         (res: any) => {
+  //           this.isLoading = false;
+  //           Swal.fire({
+  //             text: 'Foto berhasil di upload!',
+  //             confirmButtonText: `Kembali`,
+  //           })
+  //             .then((_) => {
+  //             });
+  //         },
+  //         () => {
+  //           this.isLoading = false;
+  //           Swal.fire({
+  //             icon: 'error',
+  //             title: 'Terjadi Kesalahan',
+  //             text: 'Silahkan upload ulang.',
+  //             confirmButtonText: `Kembali`,
+  //           }).then((_) => {
+  //           });
+  //         }
+  //       );
+  //   }
+  // }
 
   onVideoChange(event: any): void {
     const reader = new FileReader();

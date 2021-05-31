@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Penjual } from '../models/Penjual';
 import { SerialNumber } from '../models/SerialNumber';
@@ -98,10 +98,26 @@ export class ApiService {
             .post<any>(`${environment.baseUrl}pembeli/${idqrcode}`, pembeliData);
     }
 
-    updatePembeliImage(idqrcode: string, image: any): any {
-        return this.http
-            .post<any>(`${environment.baseUrl}pembeli/image/${idqrcode}`, image);
+    updatePembeliImage(idqrcode: string, image: File): Observable<HttpEvent<any>> {
+        const formData: FormData = new FormData();
+        formData.append('image', image);
+
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+
+        return this.http.request(req);
     }
+
+    getPembeliImage(idqrcode: string): Observable<any> {
+        return this.http.get(`${environment.baseUrl}pembeli/image/${idqrcode}`);
+    }
+
+    // updatePembeliImage(idqrcode: string, image: any): any {
+    //     return this.http
+    //         .post<any>(`${environment.baseUrl}pembeli/image/${idqrcode}`, image);
+    // }
     updatePembeliVideo(idqrcode: string, video: any): Observable<any[]> {
         return this.http
             .post<any>(`${environment.baseUrl}pembeli/video/${idqrcode}`, video);
