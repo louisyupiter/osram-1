@@ -129,12 +129,16 @@ export class FormpembeliComponent implements OnInit {
     this.message = [];
     this.progressInfos = [];
     this.selectedFiles = event.target.files;
-    this.uploadFiles();
+    this.uploadImages();
   }
-
-  uploadFiles(): void {
+  onVideoChange(event: any): void {
     this.message = [];
-    console.log('test');
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    this.uploadVideos();
+  }
+  uploadImages(): void {
+    this.message = [];
 
     if (this.selectedFiles) {
       for (let i = 0; i < this.selectedFiles.length; i++) {
@@ -142,8 +146,15 @@ export class FormpembeliComponent implements OnInit {
       }
     }
   }
+  uploadVideos(): void {
+    this.message = [];
 
-
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitVideo(i, this.selectedFiles[i]);
+      }
+    }
+  }
   onSubmitImage(idx: number, file: File): void {
     this.progressInfos[idx] = { value: 0, fileName: file.name };
 
@@ -167,6 +178,29 @@ export class FormpembeliComponent implements OnInit {
     }
   }
 
+  onSubmitVideo(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliVideo(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            const msg = 'Uploaded the file successfully: ' + file.name;
+            this.message.push(msg);
+            this.fileInfos = this.apiService.getPembeliVideo(this.idqrcode);
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          const msg = 'Could not upload the file: ' + file.name;
+          this.message.push(msg);
+          this.fileInfos = this.apiService.getPembeliVideo(this.idqrcode);
+        });
+    }
+  }
+
   // onImageChange(event: any): void {
   //   const reader = new FileReader();
   //   if (event.target.value) {
@@ -181,8 +215,6 @@ export class FormpembeliComponent implements OnInit {
 
   //   this.onSubmitImage();
   // }
-
-
 
   // onSubmitImage(): void {
   //   this.isLoading = true;
@@ -214,50 +246,50 @@ export class FormpembeliComponent implements OnInit {
   //   }
   // }
 
-  onVideoChange(event: any): void {
-    const reader = new FileReader();
-    if (event.target.value) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.videoFile = reader.result as string;
-      };
-      this.videoData = (event.target.files[0] as File);
-      this.choosenvideo = true;
-    }
+  // onVideoChange(event: any): void {
+  //   const reader = new FileReader();
+  //   if (event.target.value) {
+  //     const [file] = event.target.files;
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => {
+  //       this.videoFile = reader.result as string;
+  //     };
+  //     this.videoData = (event.target.files[0] as File);
+  //     this.choosenvideo = true;
+  //   }
 
-    this.onSubmitVideo();
-  }
+  //   this.onSubmitVideo();
+  // }
 
-  onSubmitVideo(): void {
-    this.isLoading = true;
-    const fd = new FormData();
-    if (this.videoData) {
-      fd.append('video', this.videoData, this.videoData.name);
-      this.apiService.updatePembeliVideo(this.idqrcode, fd)
-        .subscribe(
-          (res: any) => {
-            this.isLoading = false;
-            Swal.fire({
-              text: 'Video berhasil di upload!',
-              confirmButtonText: `Kembali`,
-            })
-              .then((_) => {
-              });
-          },
-          () => {
-            this.isLoading = false;
-            Swal.fire({
-              icon: 'error',
-              title: 'Gagal upload',
-              text: 'Silahkan upload ulang.',
-              confirmButtonText: `Kembali`,
-            }).then((_) => {
-            });
-          }
-        );
-    }
-  }
+  // onSubmitVideo(): void {
+  //   this.isLoading = true;
+  //   const fd = new FormData();
+  //   if (this.videoData) {
+  //     fd.append('video', this.videoData, this.videoData.name);
+  //     this.apiService.updatePembeliVideo(this.idqrcode, fd)
+  //       .subscribe(
+  //         (res: any) => {
+  //           this.isLoading = false;
+  //           Swal.fire({
+  //             text: 'Video berhasil di upload!',
+  //             confirmButtonText: `Kembali`,
+  //           })
+  //             .then((_) => {
+  //             });
+  //         },
+  //         () => {
+  //           this.isLoading = false;
+  //           Swal.fire({
+  //             icon: 'error',
+  //             title: 'Gagal upload',
+  //             text: 'Silahkan upload ulang.',
+  //             confirmButtonText: `Kembali`,
+  //           }).then((_) => {
+  //           });
+  //         }
+  //       );
+  //   }
+  // }
 
   onSubmit(formData: any): void {
     const namapembeli = formData.nama_pembeli;
