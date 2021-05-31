@@ -101,12 +101,10 @@ export class ApiService {
     updatePembeliImage(idqrcode: string, image: File): Observable<HttpEvent<any>> {
         const formData: FormData = new FormData();
         formData.append('image', image);
-
         const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image/${idqrcode}`, formData, {
             reportProgress: true,
             responseType: 'json'
         });
-
         return this.http.request(req);
     }
 
@@ -118,8 +116,20 @@ export class ApiService {
     //     return this.http
     //         .post<any>(`${environment.baseUrl}pembeli/image/${idqrcode}`, image);
     // }
-    updatePembeliVideo(idqrcode: string, video: any): Observable<any[]> {
-        return this.http
-            .post<any>(`${environment.baseUrl}pembeli/video/${idqrcode}`, video);
+    updatePembeliVideo(idqrcode: string, video: any): Observable<HttpEvent<any>> {
+        const formData: FormData = new FormData();
+        formData.append('video', video);
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/video/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        return this.http.request(req);
     }
+    getPembeliVideo(idqrcode: string): Observable<any> {
+        return this.http.get(`${environment.baseUrl}pembeli/video/${idqrcode}`);
+    }
+    // updatePembeliVideo(idqrcode: string, video: any): Observable<any[]> {
+    //     return this.http
+    //         .post<any>(`${environment.baseUrl}pembeli/video/${idqrcode}`, video);
+    // }
 }
